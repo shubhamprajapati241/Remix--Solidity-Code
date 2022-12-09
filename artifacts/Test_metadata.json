@@ -1,0 +1,60 @@
+{
+	"compiler": {
+		"version": "0.8.16+commit.07a7930e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "callingExternal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "callingPublic",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"gas_optimization5.sol": "Test"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"gas_optimization5.sol": {
+			"keccak256": "0xb70b3d471695147a6ba87a0a688bd81495fd977ac212f18413cd5f0b136faded",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d9c6048fa7fc1cee876f6b306acd5e72a5ef0c3623ed195369a03e5c153de5ad",
+				"dweb:/ipfs/QmX5nLB7wwvvcEZTX31bN4sL3MSLeSCoKfLbXai27Hk3RV"
+			]
+		}
+	},
+	"version": 1
+}

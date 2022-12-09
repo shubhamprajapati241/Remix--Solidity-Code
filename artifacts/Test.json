@@ -1,0 +1,95 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "6080604052348015600f57600080fd5b50609d8061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c8063621a2858146037578063ee62a63514603f575b600080fd5b603d6047565b005b60456057565b005b6000600a90506000601490505050565b6000600a9050600060149050505056fea2646970667358221220368654d7ba2ffa7423ea54139daa7a904108dbd764156c0571a77d4587c1680264736f6c63430008100033",
+			"opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x9D DUP1 PUSH2 0x1E PUSH1 0x0 CODECOPY PUSH1 0x0 RETURN INVALID PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x4 CALLDATASIZE LT PUSH1 0x32 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x621A2858 EQ PUSH1 0x37 JUMPI DUP1 PUSH4 0xEE62A635 EQ PUSH1 0x3F JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x3D PUSH1 0x47 JUMP JUMPDEST STOP JUMPDEST PUSH1 0x45 PUSH1 0x57 JUMP JUMPDEST STOP JUMPDEST PUSH1 0x0 PUSH1 0xA SWAP1 POP PUSH1 0x0 PUSH1 0x14 SWAP1 POP POP POP JUMP JUMPDEST PUSH1 0x0 PUSH1 0xA SWAP1 POP PUSH1 0x0 PUSH1 0x14 SWAP1 POP POP POP JUMP INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 CALLDATASIZE DUP7 SLOAD 0xD7 0xBA 0x2F STATICCALL PUSH21 0x23EA54139DAA7A904108DBD764156C0571A77D4587 0xC1 PUSH9 0x264736F6C63430008 LT STOP CALLER ",
+			"sourceMap": "62:684:0:-:0;;;;;;;;;;;;;;;;;;;"
+		},
+		"deployedBytecode": {
+			"functionDebugData": {
+				"@callingExternal_25": {
+					"entryPoint": 87,
+					"id": 25,
+					"parameterSlots": 0,
+					"returnSlots": 0
+				},
+				"@callingPublic_13": {
+					"entryPoint": 71,
+					"id": 13,
+					"parameterSlots": 0,
+					"returnSlots": 0
+				}
+			},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "6080604052348015600f57600080fd5b506004361060325760003560e01c8063621a2858146037578063ee62a63514603f575b600080fd5b603d6047565b005b60456057565b005b6000600a90506000601490505050565b6000600a9050600060149050505056fea2646970667358221220368654d7ba2ffa7423ea54139daa7a904108dbd764156c0571a77d4587c1680264736f6c63430008100033",
+			"opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x4 CALLDATASIZE LT PUSH1 0x32 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x621A2858 EQ PUSH1 0x37 JUMPI DUP1 PUSH4 0xEE62A635 EQ PUSH1 0x3F JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x3D PUSH1 0x47 JUMP JUMPDEST STOP JUMPDEST PUSH1 0x45 PUSH1 0x57 JUMP JUMPDEST STOP JUMPDEST PUSH1 0x0 PUSH1 0xA SWAP1 POP PUSH1 0x0 PUSH1 0x14 SWAP1 POP POP POP JUMP JUMPDEST PUSH1 0x0 PUSH1 0xA SWAP1 POP PUSH1 0x0 PUSH1 0x14 SWAP1 POP POP POP JUMP INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 CALLDATASIZE DUP7 SLOAD 0xD7 0xBA 0x2F STATICCALL PUSH21 0x23EA54139DAA7A904108DBD764156C0571A77D4587 0xC1 PUSH9 0x264736F6C63430008 LT STOP CALLER ",
+			"sourceMap": "62:684:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;514:84;;;:::i;:::-;;623:88;;;:::i;:::-;;514:84;557:6;566:2;557:11;;579:6;588:2;579:11;;546:52;;514:84::o;623:88::-;670:6;679:2;670:11;;692:6;701:2;692:11;;659:52;;623:88::o"
+		},
+		"gasEstimates": {
+			"creation": {
+				"codeDepositCost": "31400",
+				"executionCost": "81",
+				"totalCost": "31481"
+			},
+			"external": {
+				"callingExternal()": "170",
+				"callingPublic()": "148"
+			}
+		},
+		"methodIdentifiers": {
+			"callingExternal()": "ee62a635",
+			"callingPublic()": "621a2858"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [],
+			"name": "callingExternal",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "callingPublic",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]
+}

@@ -1,0 +1,53 @@
+{
+	"compiler": {
+		"version": "0.8.16+commit.07a7930e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "not_optimized",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"gas_optimization2.sol": "GasOptmization2"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"gas_optimization2.sol": {
+			"keccak256": "0x2722e919212d1979894a3aecee049c0561acffe880563093f0edba4a7f22bbe4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://601beddd111d160b12fa832444781f6223d406913739a46df2a0a8a4901319e5",
+				"dweb:/ipfs/Qme1nKLTiqgmw245He2rCUbGqFpriaSvTKa3odgCo1U3vt"
+			]
+		}
+	},
+	"version": 1
+}
