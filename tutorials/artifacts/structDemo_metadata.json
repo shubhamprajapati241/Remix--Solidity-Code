@@ -1,10 +1,45 @@
 {
 	"compiler": {
-		"version": "0.8.7+commit.e28d00a7"
+		"version": "0.8.8+commit.dddeac2f"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
+			{
+				"inputs": [],
+				"name": "getBook",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "title",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "author",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bookId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct structDemo.Book",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
 			{
 				"inputs": [],
 				"name": "getBookId",
@@ -20,38 +55,12 @@
 			},
 			{
 				"inputs": [],
-				"name": "getTitle",
+				"name": "getBookName",
 				"outputs": [
 					{
 						"internalType": "string",
 						"name": "",
 						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getauthor",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getprice",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -78,7 +87,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"assignment_detail_gas_analysis.sol": "structure"
+			"tutorials/structDatatype.sol": "structDemo"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -92,12 +101,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"assignment_detail_gas_analysis.sol": {
-			"keccak256": "0xfd624e2a8fcbf1ddc9d636604a65dcc74693f983573b56df4b319b3106fa45c7",
+		"tutorials/structDatatype.sol": {
+			"keccak256": "0x13ecd120d5ce69db0f317eec8164473946f68c05212b22782fdf00cc9550b6ef",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://179fdde4f4d6c626ea39b8ee7d812e83329abf1dab9fc671892e7c82fc0c655d",
-				"dweb:/ipfs/QmdQedLnx5B1GSbypSrB3jG1aqSPrpFhi7DGW6SRrBekTh"
+				"bzz-raw://d466235e90b36d8f9c808ab8ef1de07b3d6c703a9be2296992a334ea9caaa3bf",
+				"dweb:/ipfs/QmSZXd8szSufUePxqzxuAGogxPJpPPuV3tMeYoNek1HiE3"
 			]
 		}
 	},

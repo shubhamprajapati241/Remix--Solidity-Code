@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.7+commit.e28d00a7"
+		"version": "0.8.8+commit.dddeac2f"
 	},
 	"language": "Solidity",
 	"output": {
@@ -167,7 +167,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"array_demo.sol": "ArrayDemo"
+			"array_explained.sol": "ArrayDemo"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -175,18 +175,18 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
-			"runs": 200
+			"enabled": true,
+			"runs": 500
 		},
 		"remappings": []
 	},
 	"sources": {
-		"array_demo.sol": {
-			"keccak256": "0x3b660a273d8d09876c5ea3ad40e1d5ca0da7d80cae6cb890776751e857dcd3db",
+		"array_explained.sol": {
+			"keccak256": "0x055ccb9d7ca1fba68d65f74886c367bafc5d097f0c8202ad5c0b71baefd44398",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fb7b3f85d0f57d2c4f6f54b8eed229b8e679a9ab3e803cae7e557975f08936e4",
-				"dweb:/ipfs/QmQvR8SRtBiEKnzGmJXgfMzvsxPedaHd8kUdLJs61jSjC6"
+				"bzz-raw://7b2fc30f98b1b3439db0bee8e388a7c9940f19fcc731112270c41f397f9e866a",
+				"dweb:/ipfs/QmcerJEBRcd9PszojTYv2R3B9LAuTuerpUq8W2wR4DEoJe"
 			]
 		}
 	},

@@ -1,18 +1,18 @@
 {
 	"compiler": {
-		"version": "0.8.7+commit.e28d00a7"
+		"version": "0.8.8+commit.dddeac2f"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
 				"inputs": [],
-				"name": "getBookId",
+				"name": "addr",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "address",
 						"name": "",
-						"type": "uint256"
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -20,12 +20,12 @@
 			},
 			{
 				"inputs": [],
-				"name": "getTitle",
+				"name": "boolean",
 				"outputs": [
 					{
-						"internalType": "string",
+						"internalType": "bool",
 						"name": "",
-						"type": "string"
+						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -33,12 +33,12 @@
 			},
 			{
 				"inputs": [],
-				"name": "getauthor",
+				"name": "maxInt",
 				"outputs": [
 					{
-						"internalType": "string",
+						"internalType": "int256",
 						"name": "",
-						"type": "string"
+						"type": "int256"
 					}
 				],
 				"stateMutability": "view",
@@ -46,22 +46,15 @@
 			},
 			{
 				"inputs": [],
-				"name": "getprice",
+				"name": "minInt",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "int256",
 						"name": "",
-						"type": "uint256"
+						"type": "int256"
 					}
 				],
 				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "setBook",
-				"outputs": [],
-				"stateMutability": "nonpayable",
 				"type": "function"
 			}
 		],
@@ -78,7 +71,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"assignment_detail_gas_analysis.sol": "structure"
+			"tutorials/datatype.sol": "PrimitiveDatatypes"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -92,12 +85,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"assignment_detail_gas_analysis.sol": {
-			"keccak256": "0xfd624e2a8fcbf1ddc9d636604a65dcc74693f983573b56df4b319b3106fa45c7",
+		"tutorials/datatype.sol": {
+			"keccak256": "0x2ad57f7dc9f9283b3faa6e0c3bfc0a05a933bb21e31a667eba994b9c2576ddb7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://179fdde4f4d6c626ea39b8ee7d812e83329abf1dab9fc671892e7c82fc0c655d",
-				"dweb:/ipfs/QmdQedLnx5B1GSbypSrB3jG1aqSPrpFhi7DGW6SRrBekTh"
+				"bzz-raw://6bc95a23a4d6656c7175dcc8f15eef907514df1610cf2bbffb7721809b15b420",
+				"dweb:/ipfs/QmPkaax9xDcQrXJ7pAtY99PvPEwMW9wgYLg6uy6aHfKWdJ"
 			]
 		}
 	},

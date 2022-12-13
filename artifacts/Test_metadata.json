@@ -1,25 +1,10 @@
 {
 	"compiler": {
-		"version": "0.8.16+commit.07a7930e"
+		"version": "0.8.8+commit.dddeac2f"
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [
-			{
-				"inputs": [],
-				"name": "callingExternal",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "callingPublic",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			}
-		],
+		"abi": [],
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
@@ -33,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"gas_optimization5.sol": "Test"
+			"callfunction2.sol": "Test"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -41,18 +26,18 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
-			"runs": 200
+			"enabled": true,
+			"runs": 500
 		},
 		"remappings": []
 	},
 	"sources": {
-		"gas_optimization5.sol": {
-			"keccak256": "0xb70b3d471695147a6ba87a0a688bd81495fd977ac212f18413cd5f0b136faded",
+		"callfunction2.sol": {
+			"keccak256": "0x08bbddf3648165fc78f76eed1e0383aa82ae288d61920dbfa2faa5df4ec50393",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d9c6048fa7fc1cee876f6b306acd5e72a5ef0c3623ed195369a03e5c153de5ad",
-				"dweb:/ipfs/QmX5nLB7wwvvcEZTX31bN4sL3MSLeSCoKfLbXai27Hk3RV"
+				"bzz-raw://cd607d0922f686784b05a6e072e98cd3cba2b5fc1b12b341bcc07e73bac5bf51",
+				"dweb:/ipfs/QmPAiRNgrh93YjUuXp9ps5oWiyacih9U5iPZYSoznU7Wxf"
 			]
 		}
 	},
