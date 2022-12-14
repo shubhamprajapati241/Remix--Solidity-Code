@@ -11,8 +11,8 @@ contract EnumDemo {
         return choice;
     }
 
-    function getDefaultChoice() public pure returns(uint) {
-        return uint(defaultChoice);
+    function getDefaultChoice() public pure returns(FreshJuice) {
+        return defaultChoice;
     }
 
     function setLarge() public {

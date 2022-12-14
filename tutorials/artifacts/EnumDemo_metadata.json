@@ -23,9 +23,9 @@
 				"name": "getDefaultChoice",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "enum EnumDemo.FreshJuice",
 						"name": "",
-						"type": "uint256"
+						"type": "uint8"
 					}
 				],
 				"stateMutability": "pure",
@@ -74,11 +74,11 @@
 	},
 	"sources": {
 		"tutorials/EnumDatatype.sol": {
-			"keccak256": "0x8bc5b77689429248421193419467c84b539caf270e811ea7b5de4efc2242f83b",
+			"keccak256": "0xd2f7516cddfc7c979614ff3c6136a3c625f49f51fbffcd450521c11656920dbc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://355e0cb4963db9db60a4d26edc45ecba2633d85be99cdecabaa027f11de061c7",
-				"dweb:/ipfs/QmaDKpxGoSksDY3JGanx56VUNany6bdQqdUneEDceKSqfh"
+				"bzz-raw://5d54bca2f76b77aa4318ba1b675d514f124568e09695d652ed7368cccacdb66d",
+				"dweb:/ipfs/QmbLTcCQ1m3QWMpJHCwkjigr424LyC4kx77LbMdCXQmKiE"
 			]
 		}
 	},
