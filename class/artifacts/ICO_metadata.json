@@ -6,13 +6,7 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "initialSupply",
-						"type": "uint256"
-					}
-				],
+				"inputs": [],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -462,7 +456,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"class/erc_20.sol": "IndianRupeesToken"
+			"class/erc_20.sol": "ICO"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -517,11 +511,11 @@
 			]
 		},
 		"class/erc_20.sol": {
-			"keccak256": "0x74dd92246ad8b4be76ec55513a834b38e5966868526d314becd98b71e41dbae7",
-			"license": "MIT",
+			"keccak256": "0x1bf2b2720612bc7ab3caa8adb806086e0638afe092c37ab8747568a486190e07",
+			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://0533a7bb8f9f9f6fa67f2bf48154e8aa3580ccea25d0908ebb5a61e52a5acb43",
-				"dweb:/ipfs/Qmf9aYfDShx8nsxzbtbWekTy5Ty7NrsF8CFNmJ3WkFP7KJ"
+				"bzz-raw://c5c7919fd60690a523b599f6b7c903134d965160c1cb1aef935da9ecf02ca813",
+				"dweb:/ipfs/QmQXFNEjHRRgdom72Pek3s7auY4s5GgDiPLavVXN5qxCev"
 			]
 		}
 	},

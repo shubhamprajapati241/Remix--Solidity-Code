@@ -1,0 +1,106 @@
+{
+	"compiler": {
+		"version": "0.8.17+commit.8df45f5f"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "i",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "j",
+						"type": "string"
+					},
+					{
+						"internalType": "bool",
+						"name": "k",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "l",
+						"type": "address"
+					}
+				],
+				"name": "A",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "callingA",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "fuctionWithKeyValues",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"tutorials/functionDemo.sol": "SecondContract"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"tutorials/functionDemo.sol": {
+			"keccak256": "0x7883c843b1eb79ad47bf5615e10b3dd68c85416afb936330286d30ed2fc65d35",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1bc258cae3350728ea0216500b7054616f6121b85474575c85841ea917bfbadf",
+				"dweb:/ipfs/QmSU5aZRuqNa8b6chXSHQHSWDEGAE9E4UEtPCbpDFsRx8j"
+			]
+		}
+	},
+	"version": 1
+}

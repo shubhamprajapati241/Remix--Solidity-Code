@@ -9,26 +9,29 @@ contract structure{
         uint256 price;
     }
 
-    // define a struct- name of the struct variable to represent the struct
     Book book;
 
-    function setBook() public {
-        book= Book("Blokchain for beginners","Ineuron",4,1000);
+    //  Optimise the setBook() function 
+    //  Change all public function to exteral function call
+
+    function setBook() external {
+        Book memory addBook= Book("Blokchain for beginners","Ineuron",4,1000);
+        book = addBook;
     }
 
-    function getBookId() public view returns(uint) {
+    function getBookId() external view returns(uint) {
         return book.bookID;
     }
 
-    function getprice() public view returns(uint){
+    function getprice() external view returns(uint){
         return book.price;
     }   
 
-    function getTitle() public view returns(string memory){
+    function getTitle() external view returns(string memory){
         return book.title;
     }
 
-    function getauthor() public view returns(string memory){
+    function getAuthor() external view returns(string memory){
         return book.author;
     }
 
