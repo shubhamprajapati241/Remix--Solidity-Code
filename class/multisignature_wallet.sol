@@ -6,6 +6,7 @@ pragma solidity ^0.8.8;
 contract MultiSignWallet {
 
     // creating the events
+    // event is used to log the details on the blockchain
     event Deposit(address indexed sender, uint amount, uint balance);
     event SubmitTransactions(
         address indexed owner,
@@ -19,24 +20,25 @@ contract MultiSignWallet {
     event RevokeTransactions(address indexed owner, uint indexed txIndex);
     event ExecuteTransactions(address indexed owner, uint indexed txIndex);
 
-    address[] public owners;
-    mapping(address=> bool) public isOwner;
+    // Declaring the variables
+    address[] public owners; // storing the owners
+    mapping(address=> bool) public isOwner; // for checking the given address is owners or not 
     uint public numConfirmationsRequired; // how many confirmations are required for signing the transactions
 
     struct Transaction {
-        address to;
-        uint value;
-        bytes data;
-        bool executed;
-        uint numConfirmations;
+        address to; // receiver address
+        uint value; // amount you want to send
+        bytes data; // any text, msg along with the money
+        bool executed; // to check whether the transaction is executed or not
+        uint numConfirmations; // number of confirmation from the owners
     }
 
     mapping(uint=> mapping(address=>bool)) public isConfirmed; // for checking the status of a particular transactions
     // herer uint = transactions_id, address = owner, bool = approve or not approve 
 
-    Transaction[] public transactions;  // converting the struct into array
+    Transaction[] public transactions;  // creating array of struct
 
-    // declaring the modifiers
+    // Declaring the modifiers : Modifier work as the validation
     // 1. for checking owners or only the owner can call
     modifier onlyOwner() {
         require(isOwner[msg.sender], "Not the owner");
@@ -46,13 +48,13 @@ contract MultiSignWallet {
     // 2. modifier to check the existance of the transactions
     modifier txExists(uint _txIndex){
         require(_txIndex < transactions.length, "Transactions doesn't exists.");
-        // transactions array lengh is 4 and searching to _txIndex = 5 => This error will shown
+        // transactions array length is 4 and searching to _txIndex = 5 => This error will shown
         _;
     }
 
     // 3. For check the status of executed transactions
     modifier notExecuted(uint _txIndex) {
-        require(!transactions[_txIndex].executed, "Transactions already executed");
+        require(!transactions[_txIndex].executed, "Tx already executed");
         _;
     }
 
@@ -61,26 +63,28 @@ contract MultiSignWallet {
         _;
     }
 
-    // In constructor setting the owner and number of Confirmations Required for the transactions
+    // In constructor setting the owners and number of Confirmations for the transactions
     constructor(address[] memory _owners, uint _numConfirmationRequired) {
         require(_owners.length > 0, "At least one owner required");
-        require(_numConfirmationRequired > 0 && _numConfirmationRequired >= owners.length, "Invalid number of required confirmations in constructor"); // _numConfirmationRequired should be greater than the 0 to less than the total owners
+        require(_numConfirmationRequired > 0 && _numConfirmationRequired >= owners.length, "Invalid number of required confirmations in constructor"); // _numConfirmationRequired should be greater than the 0 to less than the total number of owners
 
         for(uint i=0; i < _owners.length; i++) {
             address owner = _owners[i];
-            require(owner != address(0), "Invalid owner");
-
-            // for owner uniqueness
-            require(!isOwner[owner], "Owner not unique");
+            require(owner != address(0), "Invalid owner"); // owner not be empty address
+            require(!isOwner[owner], "Owner not unique"); // for owner uniqueness
             isOwner[owner] = true;
             owners.push(owner); 
         }
         numConfirmationsRequired = _numConfirmationRequired;
     }
 
-    receive() external payable {
+    function depositEth() public payable {
+        (bool success, )  = address(this).call{value :msg.value}("");
+        require(success, "Deposit Failed");
         emit Deposit(msg.sender, msg.value, address(this).balance);
     }
+
+    receive() external payable {}
 
     function confirmTransaction(uint _txIndex) public onlyOwner txExists(_txIndex) notExecuted(_txIndex) 
         notConfirmed(_txIndex) {
@@ -110,12 +114,13 @@ contract MultiSignWallet {
         Transaction storage transaction = transactions[_txIndex];
         // require(transaction.numConfirmations >= numConfirmationsRequired, "Cannot execute tansactions");
         transaction.executed = true;
-        (bool success, )  = transaction.to.call{value :transaction.value}(transaction.data);
-        require(success, "Transaction Failed");
+        (bool success, )  = transaction.to.call{gas : 20000, value : transaction.value}(transaction.data);
+        require(success, "Tx Failed");
         emit ExecuteTransactions(msg.sender, _txIndex);
     }
 
-    function revokConfirmation(uint _txIndex) public 
+    //owner can revoke thier confirmation
+    function revokeConfirmation(uint _txIndex) public 
         onlyOwner txExists(_txIndex) notExecuted(_txIndex)
     {
         Transaction storage transaction = transactions[_txIndex];

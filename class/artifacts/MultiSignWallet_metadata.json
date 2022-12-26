@@ -154,6 +154,13 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "depositEth",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -314,7 +321,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "revokConfirmation",
+				"name": "revokeConfirmation",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -408,17 +415,17 @@
 		},
 		"optimizer": {
 			"enabled": true,
-			"runs": 100
+			"runs": 250
 		},
 		"remappings": []
 	},
 	"sources": {
 		"class/multisignature_wallet.sol": {
-			"keccak256": "0xc5c01207443674fe2beed5a18b665e493513ce87b3a006311404eaaf8973a17b",
+			"keccak256": "0xd02792299dc5c523263053efe131e763654d01743cac81138535dcfd043cc943",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1f2c5c7040df7a21691e2de17fb9dc0ebdfa8de25bfbba6e538a81a5791ea907",
-				"dweb:/ipfs/QmTpLugfn1XFyASYGof2d8EWFxQN4TQaa24mnFrcmzQ3tb"
+				"bzz-raw://f69c76b6b76f697aa65bbf0fc71fa696dbccdd8c8dc7d367ae6552bb0d6e8766",
+				"dweb:/ipfs/Qmama3gwfjySprvCD8AH6vAqBnTP13HXZDHfSTCujAGAGU"
 			]
 		}
 	},
