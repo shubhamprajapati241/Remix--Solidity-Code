@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.8+commit.dddeac2f"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
@@ -168,6 +168,19 @@
 					}
 				],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "buy",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -464,7 +477,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": true,
+			"enabled": false,
 			"runs": 200
 		},
 		"remappings": []
@@ -511,11 +524,11 @@
 			]
 		},
 		"class/erc_20.sol": {
-			"keccak256": "0x1bf2b2720612bc7ab3caa8adb806086e0638afe092c37ab8747568a486190e07",
+			"keccak256": "0xba29f4cf599470bae6d3d56eae0e54e416f935fcaec119108dc030e4cfd80e09",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://c5c7919fd60690a523b599f6b7c903134d965160c1cb1aef935da9ecf02ca813",
-				"dweb:/ipfs/QmQXFNEjHRRgdom72Pek3s7auY4s5GgDiPLavVXN5qxCev"
+				"bzz-raw://e02bdd3252295a8263edfcb3cf4c7602d07d7c8624b523bf9ebbef41f121e70f",
+				"dweb:/ipfs/QmNzuSWYWcridcX3axNXGmAUnaBLWhfTJ3MZJKyx4VK4LJ"
 			]
 		}
 	},
