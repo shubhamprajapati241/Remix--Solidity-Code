@@ -1,37 +1,23 @@
 {
 	"compiler": {
-		"version": "0.8.6+commit.11564f7e"
+		"version": "0.8.13+commit.abaa5c0e"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					}
-				],
-				"name": "addToken",
-				"outputs": [],
+				"inputs": [],
 				"stateMutability": "nonpayable",
-				"type": "function"
+				"type": "constructor"
 			},
 			{
-				"inputs": [
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
 					{
 						"internalType": "address",
 						"name": "",
 						"type": "address"
-					}
-				],
-				"name": "token",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
 					}
 				],
 				"stateMutability": "view",
@@ -51,9 +37,9 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"nested-mapping.sol": "Test"
+			"praticals/2-1.sol": "GlobalVar"
 		},
-		"evmVersion": "berlin",
+		"evmVersion": "london",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -65,12 +51,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"nested-mapping.sol": {
-			"keccak256": "0xb1df639fcf4a523c0fec2a862bc525449b55ef1f9186ce453f8df380eedde92c",
+		"praticals/2-1.sol": {
+			"keccak256": "0x599cc1f408c317a11d1cf63d525b78d6642520c6ab33308c8022db36a51c3dc4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cb39c76d1207b8025b3f917f3aec397c22bbd0da3c8f7815a21d81670498a15a",
-				"dweb:/ipfs/QmYBBk4paqsVKXUWYyfFBD9PWnS2ujaXCP22uubRADj6GA"
+				"bzz-raw://7ed8b1b0f3c1fd9ee569aceee0d3bd627f8c0c167560ab534e635ae0266db45e",
+				"dweb:/ipfs/QmQJiVobghHNStFSjPD7XG5UuEepQuRftBujqBuk9EXKxX"
 			]
 		}
 	},
