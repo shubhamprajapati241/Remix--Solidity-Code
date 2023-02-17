@@ -16,11 +16,34 @@
 						"internalType": "address",
 						"name": "_token",
 						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "_symbol",
+						"type": "string"
+					}
+				],
+				"name": "addTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
 					}
 				],
 				"name": "lend",
 				"outputs": [],
-				"stateMutability": "payable",
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -31,17 +54,17 @@
 						"type": "address"
 					},
 					{
-						"internalType": "address",
+						"internalType": "uint256",
 						"name": "",
-						"type": "address"
+						"type": "uint256"
 					}
 				],
 				"name": "lenderAssetList",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "address",
 						"name": "",
-						"type": "uint256"
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -54,25 +77,6 @@
 						"name": "",
 						"type": "address"
 					},
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "lenderAssetTimeStamp",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
 					{
 						"internalType": "address",
 						"name": "",
@@ -82,9 +86,33 @@
 				"name": "lenderAssets",
 				"outputs": [
 					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "lenderTimestamp",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -121,6 +149,49 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "lender",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					}
+				],
+				"name": "rewardTokensEarned",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "tokenMap",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -136,7 +207,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Defi-project/LendingPoolCore.sol": "LendingPoolCore"
+			"Defi-project/LendingPoolV1.sol": "LendingPool"
 		},
 		"evmVersion": "berlin",
 		"libraries": {},
@@ -150,14 +221,6 @@
 		"remappings": []
 	},
 	"sources": {
-		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
-			"keccak256": "0x190dd6f8d592b7e4e930feb7f4313aeb8e1c4ad3154c27ce1cf6a512fc30d8cc",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://4ce8dfb62d0c4fa260d6eec8f1cd47f5f2a044e11bde5b31d18072fa6e7d9010",
-				"dweb:/ipfs/QmTyFztU3tLEcEDnqqiaW4UJetqsU77LXc6pjc9oTXCK5u"
-			]
-		},
 		"@openzeppelin/contracts/utils/math/SafeMath.sol": {
 			"keccak256": "0x0f633a0223d9a1dcccfcf38a64c9de0874dfcbfac0c6941ccf074d63a2ce0e1e",
 			"license": "MIT",
@@ -166,12 +229,12 @@
 				"dweb:/ipfs/QmQJquTMtc6fgm5JQzGdsGpA2fqBe3MHWEdt2qzaLySMdN"
 			]
 		},
-		"Defi-project/LendingPoolCore.sol": {
-			"keccak256": "0xed3d8441ae7008b91122e3754d6e34d7250342e606b42a7f68c13a027c270734",
-			"license": "MIT",
+		"Defi-project/LendingPoolV1.sol": {
+			"keccak256": "0xb4bc74aa3a78af394b7cc8d11b160b6aac818d97741647a862bd07fc3e994318",
+			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://a0d26eba6b008a8c045bd8776a0e5012fce95b8ec01859d38e52fef4d0883c2f",
-				"dweb:/ipfs/QmPzPzxfnjJHFeFtqpdXASfAaM6sJYrjRNmAQoPJGyiYPn"
+				"bzz-raw://28e983d67564e27f4bc4f529f122ff1c6316c9d757c66172c78ebea53f72e31d",
+				"dweb:/ipfs/QmYsBGw6cXnDKH25vuJHW2ZBbqudYWNvcpCoZkZ3X8BoNY"
 			]
 		}
 	},
