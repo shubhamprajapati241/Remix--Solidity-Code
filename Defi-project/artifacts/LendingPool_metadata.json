@@ -11,6 +11,45 @@
 				"type": "constructor"
 			},
 			{
+				"inputs": [],
+				"name": "BORROW_THRESHOLD",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "INTEREST_RATE",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "LIQUIDATION_THRESHOLD",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -41,25 +80,14 @@
 						"type": "uint256"
 					}
 				],
-				"name": "lend",
+				"name": "borrow",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "lenderAssetList",
+				"inputs": [],
+				"name": "deployer",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -74,45 +102,26 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "",
+						"name": "_user",
 						"type": "address"
 					}
 				],
-				"name": "lenderAssets",
+				"name": "getAssets",
 				"outputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
+						"internalType": "address[]",
+						"name": "assetList",
+						"type": "address[]"
 					},
 					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "lenderTimestamp",
-				"outputs": [
+						"internalType": "string[]",
+						"name": "symbols",
+						"type": "string[]"
+					},
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
+						"internalType": "uint256[]",
+						"name": "assetQty",
+						"type": "uint256[]"
 					}
 				],
 				"stateMutability": "view",
@@ -120,12 +129,25 @@
 			},
 			{
 				"inputs": [],
-				"name": "owner",
-				"outputs": [
+				"name": "getAssetsToBorrow",
+				"outputs": [],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "_token",
 						"type": "address"
+					}
+				],
+				"name": "getReserves",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -135,19 +157,18 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "_token",
 						"type": "address"
-					}
-				],
-				"name": "reserves",
-				"outputs": [
+					},
 					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "_amount",
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "view",
+				"name": "lend",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -192,6 +213,48 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "lender",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					}
+				],
+				"name": "updateEarned",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -207,7 +270,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Defi-project/LendingPoolV1.sol": "LendingPool"
+			"Defi-project/LendingPool_20230217_2.sol": "LendingPool"
 		},
 		"evmVersion": "berlin",
 		"libraries": {},
@@ -221,6 +284,14 @@
 		"remappings": []
 	},
 	"sources": {
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34",
+				"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr"
+			]
+		},
 		"@openzeppelin/contracts/utils/math/SafeMath.sol": {
 			"keccak256": "0x0f633a0223d9a1dcccfcf38a64c9de0874dfcbfac0c6941ccf074d63a2ce0e1e",
 			"license": "MIT",
@@ -229,12 +300,12 @@
 				"dweb:/ipfs/QmQJquTMtc6fgm5JQzGdsGpA2fqBe3MHWEdt2qzaLySMdN"
 			]
 		},
-		"Defi-project/LendingPoolV1.sol": {
-			"keccak256": "0xb4bc74aa3a78af394b7cc8d11b160b6aac818d97741647a862bd07fc3e994318",
+		"Defi-project/LendingPool_20230217_2.sol": {
+			"keccak256": "0xfc59d33358ba8e86330a4f262d01ab99ecca2079f327178fcab8c48891c2f695",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://28e983d67564e27f4bc4f529f122ff1c6316c9d757c66172c78ebea53f72e31d",
-				"dweb:/ipfs/QmYsBGw6cXnDKH25vuJHW2ZBbqudYWNvcpCoZkZ3X8BoNY"
+				"bzz-raw://c8e6e3ecf636e42696fa34d710983fc5cd21898fb787fa092256d07f5bf7428b",
+				"dweb:/ipfs/QmQL9JkXdA8bkj6gmjNahRVowwuRViqZBFBL1HSw2a4UCB"
 			]
 		}
 	},

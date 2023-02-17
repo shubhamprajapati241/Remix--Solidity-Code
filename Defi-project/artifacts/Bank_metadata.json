@@ -1,29 +1,44 @@
 {
 	"compiler": {
-		"version": "0.8.6+commit.11564f7e"
+		"version": "0.8.18+commit.87f61d96"
 	},
 	"language": "Solidity",
 	"output": {
 		"abi": [
 			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
 				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "lenderAssets",
-				"outputs": [
 					{
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"name": "assets",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -32,17 +47,24 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
 					},
 					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
 					}
 				],
-				"name": "lenderTimestamp",
+				"name": "depositAsset",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getContactBalance",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -55,12 +77,12 @@
 			},
 			{
 				"inputs": [],
-				"name": "rewardTokensEarned",
+				"name": "owner",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "address",
 						"name": "",
-						"type": "uint256"
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -80,9 +102,9 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Defi-project/test.sol": "Bank"
+			"Defi-project/bank.sol": "Bank"
 		},
-		"evmVersion": "berlin",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -94,12 +116,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"Defi-project/test.sol": {
-			"keccak256": "0x32fa474a20af7cf54873fa6c6e1da128968b4493e58cd4845ef923cd73225902",
-			"license": "UNLICENSED",
+		"Defi-project/bank.sol": {
+			"keccak256": "0x7e1b22f24b270828229172c4640d63c61da1510ca1e762803a7ec843bf6d7f0a",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://af78aa100198b224dc5672a5a17f061abecdc81f23e4bdcc3a490768c09f7cd4",
-				"dweb:/ipfs/QmYKYZBQtxg7gD39HecgHHRgD5UxiiTqQzMQ342b7KyFoq"
+				"bzz-raw://afe4182850ee790ba794a27a3df2ea4921522b40c532cfb9f048716b735f3417",
+				"dweb:/ipfs/QmPJxXxVMeeon9t2PG5vpkS5EAEmaWfZnCA2JVro44m6zs"
 			]
 		}
 	},

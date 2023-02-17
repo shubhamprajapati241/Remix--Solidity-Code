@@ -3,20 +3,48 @@ pragma solidity 0.8.6;
 
 contract TEST {
     
-    uint256 immutable INTEREST_RATE=3; // interest rate
-    // uint256 public immutable borrowRate=450;
-    uint constant SECONDS_IN_A_YEAR = 86400 * 365; // time
 
-    mapping(address => mapping(address => uint)) public lenderAssets;
-    // lenderAddress => tokenAddress => time
-    mapping(address => mapping(address => uint)) public lenderTimestamp;
+    uint256 public immutable BORROW_THRESHOLD=50;
 
-    function rewardTokensEarned() public view returns(uint256){
-        // return lenderAssets[lender][_token] * (((block.timestamp-lenderTimestamp[lender][_token]) * INTEREST_RATE * 12)/SECONDS_IN_A_YEAR * 100);
-        // return (((block.timestamp-lenderTimestamp[lender][_token]) * INTEREST_RATE * 12)/SECONDS_IN_A_YEAR * 100);
+    function getAssetsToBorrow() public view  returns(uint){
+        // Go by balance  not by tokens
+        // 1. require borrower Assets for ETH
+        // 2. require reserves to have borrow threshold% of ETH to lend
+        // 3. remove balance of existing borrows
+        // 3. spread that borrow threshold amount amongst other tokens - use Price Oracle ETH/USD -> DAI/USD (ETH->DAI) 80% - that is availbale
         
-        return 500 * (((1699623927 - 1676623927) * INTEREST_RATE * 12) / SECONDS_IN_A_YEAR * 100);
-    }  
+
+        // 1. Getting lender totalAssets => 2 ETH => 3200 USD
+        // uint lendingTotalAmount = lenderTotalLandings[msg.sender];
+        uint lendingTotalAmount = 3200;
+
+        // 2. Getting Max borrow amount with borrow thresold. 
+        //  ETH => Borrow thresold will be low => 60% => 3200 * 50% = 1600 => user can borrow in stable coin
+
+        uint maxBorrowAmount = lendingTotalAmount * BORROW_THRESHOLD / 100 ;
+
+        return maxBorrowAmount;
+
+        // 3. Getting Reserve assets from lending pool 
+        // If lendingpool reserve assets not equal to borrow amount => remove that assets from borrow list
+
+        // 4. Creating Borrow assets array for return
+
+
+    
+        
+        
+        // uint256 availableAssets = reserveAssets.length;
+        // Borrow[] memory b = new Borrow[](availableAssets);
+
+
+
+        
+    }
+
+
+   
+
 
 }
 

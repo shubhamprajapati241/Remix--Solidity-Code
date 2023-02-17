@@ -6,43 +6,8 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "lenderAssets",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "lenderTimestamp",
+				"inputs": [],
+				"name": "BORROW_THRESHOLD",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -55,7 +20,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "rewardTokensEarned",
+				"name": "getAssetsToBorrow",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -95,11 +60,11 @@
 	},
 	"sources": {
 		"Defi-project/test.sol": {
-			"keccak256": "0xca355e0fb3b4fe85b390d0964fdecb27940c7ea475b2fe87a90b6f33c0c224a5",
+			"keccak256": "0xbeef7e8cfe55661fb0fe563eed4cd354213e14132b05bf77d2d018a23144f270",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://d670e8c051ff12a232b0664c56dfec7ab00fe914bf2579b5bb91b9d1f7fd1d1b",
-				"dweb:/ipfs/QmXP9FXgQcXnXrnHiffJhzVBypL82zP1cux27fACUwGkkQ"
+				"bzz-raw://220b4f968ef47d3ba302632bd5d2d73eeb6b72e546d1e59ba826f1a7d357cf4b",
+				"dweb:/ipfs/QmWjRCSsnjKMfVwnRbwUz69DXdSRYV7wKHuMHMnw24L6hW"
 			]
 		}
 	},

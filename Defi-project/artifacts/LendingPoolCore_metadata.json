@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.6+commit.11564f7e"
+		"version": "0.8.18+commit.87f61d96"
 	},
 	"language": "Solidity",
 	"output": {
@@ -138,7 +138,7 @@
 		"compilationTarget": {
 			"Defi-project/LendingPoolCore.sol": "LendingPoolCore"
 		},
-		"evmVersion": "berlin",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"

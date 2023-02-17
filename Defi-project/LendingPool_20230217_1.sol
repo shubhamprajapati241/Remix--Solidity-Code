@@ -113,13 +113,13 @@ contract LendingPool {
     
   
 
-    // function updateEarned(address lender, address _token) onlyOwner(_token) public{
-    //     // return((lenderAssets[lender][_token]*(updateRewardTokens()-lenderRewards[lender]))/1e18)+s_rewards[lender];
-    //         lenderAssets[lender][_token] = 
-    //             lenderAssets[lender][_token].add(
-    //                     rewardTokensEarned(lender, _token)
-    //                     );
-    // }
+    function updateEarned(address lender, address _token) onlyOwner(_token) public{
+        // return((lenderAssets[lender][_token]*(updateRewardTokens()-lenderRewards[lender]))/1e18)+s_rewards[lender];
+            lenderAssets[lender][_token] = 
+                lenderAssets[lender][_token].add(
+                        rewardTokensEarned(lender, _token)
+                        );
+    }
 
     // function getReserves(address _token) public view returns(uint256){
     //     return reserves[_token];
