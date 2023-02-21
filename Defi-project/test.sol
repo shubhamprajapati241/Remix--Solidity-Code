@@ -3,10 +3,40 @@ pragma solidity 0.8.6;
 
 contract TEST {
     
+    uint256  immutable BORROW_RATE = 4;
+    uint256  immutable BORROW_THRESHOLD=50;
+    address[] public reserveAssets;
+    mapping(address => uint)  public reserves;
 
-    uint256 public immutable BORROW_THRESHOLD=50;
+    mapping(address => mapping(address => uint)) public lenderAssets;
+    mapping(address => address[]) public lenderAssetList;
+    mapping(address => uint) public lenderTotalLandings;
+    mapping(address => mapping(address => uint)) lenderTimestamp;
 
-    function getAssetsToBorrow() public view  returns(uint){
+    struct Borrow {
+        address asset;
+        uint256 availableQty;
+        uint256 apy;
+    }
+
+    function lend(address _token, uint256 _amount) public {
+        address lender = msg.sender;
+        // Add to lenders assets with amount
+        lenderAssets[lender][_token] = _amount;
+        // add to lender asset list
+        lenderAssetList[lender].push(_token);
+        // Add to Lending Pool a.k.a reserves
+        lenderTotalLandings[msg.sender] += _amount;
+        reserves[_token] += _amount;
+        // Add to reserve assets for enabling iteration
+        reserveAssets.push(_token);
+        // set the lending timestamp 
+        lenderTimestamp[lender][_token] = block.timestamp;
+    }
+
+
+    function getAssetsToBorrow() public view  returns(Borrow[] memory){
+      
         // Go by balance  not by tokens
         // 1. require borrower Assets for ETH
         // 2. require reserves to have borrow threshold% of ETH to lend
@@ -15,30 +45,30 @@ contract TEST {
         
 
         // 1. Getting lender totalAssets => 2 ETH => 3200 USD
-        // uint lendingTotalAmount = lenderTotalLandings[msg.sender];
-        uint lendingTotalAmount = 3200;
+        uint lendingTotalAmount = lenderTotalLandings[msg.sender];
+        // uint lendingTotalAmount = 3200;
 
         // 2. Getting Max borrow amount with borrow thresold. 
         //  ETH => Borrow thresold will be low => 60% => 3200 * 50% = 1600 => user can borrow in stable coin
 
         uint maxBorrowAmount = lendingTotalAmount * BORROW_THRESHOLD / 100 ;
 
-        return maxBorrowAmount;
-
         // 3. Getting Reserve assets from lending pool 
+         // 4. Creating Borrow assets array for return
         // If lendingpool reserve assets not equal to borrow amount => remove that assets from borrow list
-
-        // 4. Creating Borrow assets array for return
-
-
-    
+        uint totalReverseTokenCounts = reserveAssets.length; 
+        Borrow[] memory borrowingAssets = new Borrow[](totalReverseTokenCounts);
         
-        
-        // uint256 availableAssets = reserveAssets.length;
-        // Borrow[] memory b = new Borrow[](availableAssets);
-
-
-
+        for(uint i= 0; i < totalReverseTokenCounts; i++) {
+            address token = reserveAssets[i];
+            uint reserveTokenAmount = reserves[token];
+            uint index;
+            if(reserveTokenAmount >= maxBorrowAmount) {
+                borrowingAssets[index] = Borrow(token, maxBorrowAmount, BORROW_RATE);
+                index++;
+            }
+        }
+        return borrowingAssets;
         
     }
 
@@ -47,6 +77,9 @@ contract TEST {
 
 
 }
+
+
+
 
 
 // Asset Address:

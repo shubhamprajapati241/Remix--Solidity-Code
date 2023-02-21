@@ -1,0 +1,74 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "a",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "b",
+						"type": "bool"
+					}
+				],
+				"name": "Logic",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"praticals/2-3-Logical.sol": "logicalOperator"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"praticals/2-3-Logical.sol": {
+			"keccak256": "0xa030b8512898cfe748a2118b7891dafe67c4acf77e21b21241ad23fb3f841906",
+			"urls": [
+				"bzz-raw://90e0d3b2f2f4e7765f5917bd08729d33bbb65b28208529d1ac7555b5687c5a2e",
+				"dweb:/ipfs/QmTmxrBCuZ7jUKi93o7vxsketCtmvVnTCHqMHruWYc82DW"
+			]
+		}
+	},
+	"version": 1
+}

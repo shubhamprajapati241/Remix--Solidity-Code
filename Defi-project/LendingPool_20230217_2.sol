@@ -162,6 +162,7 @@ contract LendingPool {
         return reserves[_token];
     }
 
+
     /************* Borrower functions ************************/
 
     // function hasETHCollateral(address ETHAddress) {

@@ -1,0 +1,53 @@
+{
+	"compiler": {
+		"version": "0.8.18+commit.87f61d96"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "transferETh",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Defi-project/assetsTransfer/transferEth.sol": "Trans"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Defi-project/assetsTransfer/transferEth.sol": {
+			"keccak256": "0x9bdadddda8b6155014987da8416fbed71e94cf59a011b55174e025e717f85dfd",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://448773a09e6bf9215fdbf6338b257e6125997c4562a8aa6c306e1250abf11867",
+				"dweb:/ipfs/QmTpzMFXNq45QymsXM5pnPNwj4ekoQxin2F1SMZQGHypKP"
+			]
+		}
+	},
+	"version": 1
+}

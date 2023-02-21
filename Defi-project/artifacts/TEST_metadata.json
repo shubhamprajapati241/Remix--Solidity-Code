@@ -7,7 +7,90 @@
 		"abi": [
 			{
 				"inputs": [],
-				"name": "BORROW_THRESHOLD",
+				"name": "getAssetsToBorrow",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "asset",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "availableQty",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "apy",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct TEST.Borrow[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "lend",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "lenderAssetList",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "lenderAssets",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -19,8 +102,52 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "getAssetsToBorrow",
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "lenderTotalLandings",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "reserveAssets",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "reserves",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -60,11 +187,11 @@
 	},
 	"sources": {
 		"Defi-project/test.sol": {
-			"keccak256": "0xbeef7e8cfe55661fb0fe563eed4cd354213e14132b05bf77d2d018a23144f270",
+			"keccak256": "0x74f9f3f89d7f6b2529eb9ba75c94882d3cdff7aaf06bde2e9a5c6b508beede21",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://220b4f968ef47d3ba302632bd5d2d73eeb6b72e546d1e59ba826f1a7d357cf4b",
-				"dweb:/ipfs/QmWjRCSsnjKMfVwnRbwUz69DXdSRYV7wKHuMHMnw24L6hW"
+				"bzz-raw://07b5d068c20bd0f7d8ade57211fe4e5523997a699549420ecbd089485f3768bc",
+				"dweb:/ipfs/QmSYy44MRJiEg5jj6c629p4H1SaNvj9CBCc9MDQDUt8Vd9"
 			]
 		}
 	},

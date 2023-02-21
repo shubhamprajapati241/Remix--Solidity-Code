@@ -1,0 +1,64 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "a",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "b",
+						"type": "uint256"
+					}
+				],
+				"name": "sub",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"praticals/2-6-Conditional.sol": "SolidityTest"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"praticals/2-6-Conditional.sol": {
+			"keccak256": "0x8a8ec56adf7fd88c67ff510aa9823c869e23dbdb9c49cf27928c6faa6b50cc02",
+			"urls": [
+				"bzz-raw://e489d05bc4c32b7414024a2e747017497052a127c907a633bcf946a737575ed3",
+				"dweb:/ipfs/QmdCopz5noPmz7DtVNtzrA71GqEhSYbmUzFX3VQEkEBgNs"
+			]
+		}
+	},
+	"version": 1
+}

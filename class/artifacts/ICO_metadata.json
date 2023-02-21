@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.7+commit.e28d00a7"
+		"version": "0.8.6+commit.11564f7e"
 	},
 	"language": "Solidity",
 	"output": {
@@ -147,43 +147,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "account",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "burn",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "buy",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "decimals",
 				"outputs": [
@@ -234,30 +197,6 @@
 					}
 				],
 				"name": "increaseAllowance",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "account",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "mint",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -392,25 +331,6 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "withdraw",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -471,7 +391,7 @@
 		"compilationTarget": {
 			"class/erc_20.sol": "ICO"
 		},
-		"evmVersion": "london",
+		"evmVersion": "berlin",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -524,11 +444,11 @@
 			]
 		},
 		"class/erc_20.sol": {
-			"keccak256": "0xba29f4cf599470bae6d3d56eae0e54e416f935fcaec119108dc030e4cfd80e09",
+			"keccak256": "0xa5b50f536505485acfc0c4ab211dbef282a71f19a86af7673dca43bf4ae77793",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://e02bdd3252295a8263edfcb3cf4c7602d07d7c8624b523bf9ebbef41f121e70f",
-				"dweb:/ipfs/QmNzuSWYWcridcX3axNXGmAUnaBLWhfTJ3MZJKyx4VK4LJ"
+				"bzz-raw://8cfe5b56a081f96a10ed22ea730139403b539a4c9ebd66e0b61fa89ecd82fb6d",
+				"dweb:/ipfs/QmQpD25Fq9SVwcrrn1VDzcZi9ytcb8Gs6EYw3PEKsN8Na1"
 			]
 		}
 	},

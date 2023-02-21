@@ -71,7 +71,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"tutorials/datatype.sol": "PrimitiveDatatypes"
+			"tutorials/PrimitiveDatatypes.sol": "PrimitiveDatatypes"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -85,7 +85,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"tutorials/datatype.sol": {
+		"tutorials/PrimitiveDatatypes.sol": {
 			"keccak256": "0x2ad57f7dc9f9283b3faa6e0c3bfc0a05a933bb21e31a667eba994b9c2576ddb7",
 			"license": "MIT",
 			"urls": [
