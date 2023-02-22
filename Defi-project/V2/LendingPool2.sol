@@ -6,7 +6,9 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 // import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+
 import "./LendingConfig.sol";
 
 contract LendingPoolV2 is ReentrancyGuard {
@@ -23,13 +25,14 @@ contract LendingPoolV2 is ReentrancyGuard {
 
     // asset token => reserve qty
     mapping (address => uint) public reserves;
+   
     // For iteration - Do we need this?
-
     address[] public reverseAssets; 
 
     // mapping(address => UserAsset) lenderAssets;
     // mapping(address => mapping(address => uint)) lenderAssets;
     mapping(address => UserAsset[]) public lenderAssets;
+
     mapping(address => UserAsset[]) borrowerAssets;
 
     //* 3. Declaring the structs
@@ -44,8 +47,6 @@ contract LendingPoolV2 is ReentrancyGuard {
         uint256 borrowStartTimeStamp;
     }
 
-    UserAsset[] public userAssets;
-
     struct ReservePool {
         address token;
         string symbol;
@@ -55,6 +56,8 @@ contract LendingPoolV2 is ReentrancyGuard {
         bool isActive;
     }
 
+    // tokenAddress => ReservePool[]
+    // mapping(address => ReservePool[]) reservePools;
     ReservePool[] reservePool;
 
     //* 4. Declaring modifiers
@@ -75,9 +78,9 @@ contract LendingPoolV2 is ReentrancyGuard {
     //* Functionalities
 
     function isTokenOwner(address _user, address _token) internal view returns(bool) {
-        uint256 userAssetLength = userAssets.length;
+        uint256 userAssetLength = lenderAssets[_user].length;
         for (uint i = 0; i < userAssetLength; i++) {
-            if (userAssets[i].user == _user && userAssets[i].token == _token){
+            if (lenderAssets[_user][i].user == _user && lenderAssets[_user][i].token == _token){
                 return true;
             }
         }
@@ -119,8 +122,6 @@ contract LendingPoolV2 is ReentrancyGuard {
             borrowStartTimeStamp:0
         });
 
-        // Push to the struct array
-        userAssets.push(userAsset);
         // add to lender asset list
         lenderAssets[lender].push(userAsset);
         // Add to Lending Pool a.k.a reserves
@@ -136,6 +137,68 @@ contract LendingPoolV2 is ReentrancyGuard {
         return true;
     } 
 
+
+
+    function Borrow(address _token, uint _amount) public {
+
+        /* TODO : 
+            1. REQUIRE ETH in collateral
+            2. Get ETh balance in USD
+            3. Calculate 80% of ETH balance from 2. // getAssetsToBorrow
+            4. Taking Token and amount 
+            token / usd => chainlink oracle pricing
+            require( amount > 80% Thresold)
+
+            5. Update the reserve pool
+            6. Push into borrowerAssets 
+            6. transfer into ERC20 token
+
+
+            // Helper functions
+
+               -- getBorrowedAssets
+
+
+
+
+        */ 
+       
+
+
+        // 1. Token transfer from SC => user
+
+        address _borrower = msg.sender;
+
+        // 3. Updating userAssets array
+        uint borrowerAssetsLength =  lenderAssets[_borrower].length;
+
+        for (uint i=0 ; i < borrowerAssetsLength; i++) {
+
+            if(lenderAssets[_borrower][i].token == _token) {
+
+                uint totalBorrowAmount =  lenderAssets[_borrower][i].borrowQty + _amount;
+
+                lenderAssets[_borrower][i] = UserAsset({
+                    user: lenderAssets[_borrower][i].user,
+                    token: lenderAssets[_borrower][i].token,
+                    lentQty: lenderAssets[_borrower][i].lentQty,
+                    apy: lenderAssets[_borrower][i].apy,
+                    lendStartTimeStamp: lenderAssets[_borrower][i].lendStartTimeStamp,
+                    borrowQty: totalBorrowAmount,
+                    borrowRate: BORROW_RATE,
+                    borrowStartTimeStamp:block.timestamp
+                });
+            }
+        }
+
+        // 4. Updating Reserves
+        reserves[_token] -= _amount;
+
+        // 5. Updating ReversePool Array
+
+
+    }
+
     function pushAssetsIntoReservePool() public {
 
         //  address token;
@@ -149,7 +212,11 @@ contract LendingPoolV2 is ReentrancyGuard {
         // DAI : 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB
         reservePool.push(ReservePool(0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2 , "ETH", 100, false, false, false));
         reservePool.push(ReservePool(0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db , "DAI", 200,  true, false, false));
-        reservePool.push(ReservePool(0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB , "USDC", 200, true, false, false));
+        reservePool.push(ReservePool(0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB , "USDC", 300, true, false, false));
+
+        reserves[0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2] = 100; // ETH
+        reserves[0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db] = 200; // ETH
+        reserves[0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB] = 300; // ETH
 
     }
 
@@ -157,6 +224,7 @@ contract LendingPoolV2 is ReentrancyGuard {
         return reservePool;
     }
 
+    // For now => optimization
     struct BorrowAsset {
         address asset;
         uint256 availableQty;
@@ -164,13 +232,15 @@ contract LendingPoolV2 is ReentrancyGuard {
     }
 
 
-    function getAssetsToBorrow(address _lender) public view returns(BorrowAsset[] memory) {
-        // function getAssetsToBorrow(address _lender) public view returns(uint) {
+    function getAssetsToBorrow(address _borrower) public view returns(BorrowAsset[] memory) {
+        // TODO : Personal has ETH collateral
 
         // 1. Getting the Total LentAmount in USD
         // 2. Getting Max borrow amount with borrow thresold. 
-        uint totalLentAmount =  getLenderBalanceUSD(_lender);
-        uint maxBorrowAmount = (totalLentAmount * BORROW_THRESHOLD)/ 100; // Problem: Not getting the decimal value;
+
+        uint totalLentAmount =  getLenderBalanceUSD(_borrower);
+
+        uint maxBorrowAmount = (totalLentAmount * BORROW_THRESHOLD)/ 100; // Problem: Not getting the decimal value; 96 96.8
         
         // 3. Getting Reserves in the pool
 
