@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // Should we make it so that we can only LendingPoolV2 can add the assets when someone lends?
 
-contract LendingPoolConfig {
+contract LendingConfig {
     address owner;
 
     enum Freeze { FREEZE, UNFREEZE}

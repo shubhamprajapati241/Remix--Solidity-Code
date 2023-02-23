@@ -52,7 +52,7 @@
 					},
 					{
 						"indexed": false,
-						"internalType": "enum LendingPoolConfig.Freeze",
+						"internalType": "enum LendingConfig.Freeze",
 						"name": "isfrozen",
 						"type": "uint8"
 					}
@@ -71,7 +71,7 @@
 					},
 					{
 						"indexed": false,
-						"internalType": "enum LendingPoolConfig.AssetStatus",
+						"internalType": "enum LendingConfig.AssetStatus",
 						"name": "isActive",
 						"type": "uint8"
 					}
@@ -146,7 +146,7 @@
 						"type": "address"
 					},
 					{
-						"internalType": "enum LendingPoolConfig.Freeze",
+						"internalType": "enum LendingConfig.Freeze",
 						"name": "_choice",
 						"type": "uint8"
 					}
@@ -225,7 +225,7 @@
 								"type": "bool"
 							}
 						],
-						"internalType": "struct LendingPoolConfig.Asset",
+						"internalType": "struct LendingConfig.Asset",
 						"name": "",
 						"type": "tuple"
 					}
@@ -296,7 +296,7 @@
 								"type": "bool"
 							}
 						],
-						"internalType": "struct LendingPoolConfig.Asset",
+						"internalType": "struct LendingConfig.Asset",
 						"name": "",
 						"type": "tuple"
 					}
@@ -312,7 +312,7 @@
 						"type": "address"
 					},
 					{
-						"internalType": "enum LendingPoolConfig.AssetStatus",
+						"internalType": "enum LendingConfig.AssetStatus",
 						"name": "_choice",
 						"type": "uint8"
 					}
@@ -342,7 +342,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Defi-project/V2/LendingConfig.sol": "LendingPoolConfig"
+			"Defi-project/V2/LendingConfig.sol": "LendingConfig"
 		},
 		"evmVersion": "paris",
 		"libraries": {},
@@ -365,11 +365,11 @@
 			]
 		},
 		"Defi-project/V2/LendingConfig.sol": {
-			"keccak256": "0x26f97f0ada602573bb9be60448c736960491583e7895bc4f7c02acc4aff40d54",
+			"keccak256": "0x9dbeb1ea1683e71e5e4de6ae542bdc11b5de907176d4e603a1c367c5f47f62e4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6f4c90f52fcfea6f572cc23c3114acffbf13481fe4d345cc7b8675d1f9945df0",
-				"dweb:/ipfs/QmPdWijC6GXwJik3U1fwQxUjfpYDgAttuU9GYvujNjGufM"
+				"bzz-raw://46d04f53ee4a7ca17559a802e09ca92c74f6797444744fce87b9a78003ce42a9",
+				"dweb:/ipfs/QmVnCKtLWiirHzpQu9PKDrWmW42FNqb1p7Yhc4F3ycy92t"
 			]
 		}
 	},

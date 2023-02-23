@@ -35,7 +35,13 @@
 					}
 				],
 				"name": "Borrow",
-				"outputs": [],
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -43,7 +49,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_lender",
+						"name": "_borrower",
 						"type": "address"
 					}
 				],
@@ -70,6 +76,30 @@
 						"internalType": "struct LendingPoolV2.BorrowAsset[]",
 						"name": "",
 						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_borrower",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					}
+				],
+				"name": "getBorrowerAssetBal",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -107,54 +137,12 @@
 						"type": "address"
 					}
 				],
-				"name": "getLenderAssets",
+				"name": "getLenderBalanceUSD",
 				"outputs": [
 					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "user",
-								"type": "address"
-							},
-							{
-								"internalType": "address",
-								"name": "token",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "lentQty",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "borrowQty",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "apy",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "borrowRate",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "lendStartTimeStamp",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "borrowStartTimeStamp",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct LendingPoolV2.UserAsset[]",
+						"internalType": "uint256",
 						"name": "",
-						"type": "tuple[]"
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -168,7 +156,7 @@
 						"type": "address"
 					}
 				],
-				"name": "getLenderBalanceUSD",
+				"name": "getLenderETHBalanceUSD",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -202,7 +190,7 @@
 							},
 							{
 								"internalType": "bool",
-								"name": "isCollateral",
+								"name": "isBorrow",
 								"type": "bool"
 							},
 							{
@@ -219,19 +207,6 @@
 						"internalType": "struct LendingPoolV2.ReservePool[]",
 						"name": "",
 						"type": "tuple[]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getTotalBorrowAssetsCount",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -292,12 +267,12 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "apy",
+						"name": "lentApy",
 						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
-						"name": "borrowRate",
+						"name": "borrowApy",
 						"type": "uint256"
 					},
 					{
@@ -315,10 +290,41 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "pushAssetsIntoReservePool",
-				"outputs": [],
-				"stateMutability": "nonpayable",
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "lenderETHLendQty",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "reserveAssets",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -343,20 +349,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					},
+					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "_amount",
 						"type": "uint256"
 					}
 				],
-				"name": "reverseAssets",
+				"name": "withdraw",
 				"outputs": [
 					{
-						"internalType": "address",
+						"internalType": "bool",
 						"name": "",
-						"type": "address"
+						"type": "bool"
 					}
 				],
-				"stateMutability": "view",
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -432,11 +443,11 @@
 			]
 		},
 		"Defi-project/V2/LendingPool2.sol": {
-			"keccak256": "0x52f653db7d70c604f5a397c4242eb80fa40eb30e32866e590de7bce392ef4d0e",
+			"keccak256": "0xc44c86aa3ba1a11277106c79911cdc6bcfd13896eb8c9e34337715415ae4e6c1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4c98d44825e1681e7ff9855cfce86dd8225c0088904ee55428d58574b62c62d3",
-				"dweb:/ipfs/QmeKD4cFnbEMLXSZhFbkMMjVewhzhdnKCuAoBM3L7hw1gB"
+				"bzz-raw://b9eba0a9f464c36a15a609c1c4c382cc6c97c1ab5cbecb23603c1a99f1b03331",
+				"dweb:/ipfs/QmT2DrkpfZxK8a8JQTZgqY29RFHeXfDEUX69w6Txd28Zkq"
 			]
 		}
 	},
