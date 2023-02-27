@@ -14,7 +14,6 @@ import "./AggregatorV3Interface.sol";
 
 contract LendingPoolV2 is ReentrancyGuard {
 
-
     LendingConfig config;
     using SafeMath for uint;
 
@@ -35,9 +34,8 @@ contract LendingPoolV2 is ReentrancyGuard {
     // lenderAddress => ethqty : For ETH Lend - Borrow manage
     mapping(address => uint) public lenderETHLendQty;
 
-    // mapping(address => UserAsset) lenderAssets;
-    mapping(address => UserAsset[]) public lenderAssets;
-    mapping(address => UserAsset[]) borrowerAssets;
+    mapping(address => UserAsset[]) public lenderAssets; // lend amount
+    mapping(address => UserAsset[]) borrowerAssets; // borrow amount
 
     //* 3. Declaring the structs
     struct UserAsset {
@@ -51,17 +49,17 @@ contract LendingPoolV2 is ReentrancyGuard {
         uint256 borrowStartTimeStamp;
     }
 
-    struct ReservePool {
-        address token;
-        string symbol;
-        uint amount;
-        bool isBorrow;
-        bool isfrozen;
-        bool isActive;
-    }
+    // struct ReservePool {
+    //     address token;
+    //     string symbol;
+    //     uint amount;
+    //     bool isBorrow;
+    //     bool isfrozen;
+    //     bool isActive;
+    // }
 
     // mapping(address => ReservePool[]) reservePools;
-    ReservePool[] reservePool;
+    // ReservePool[] reservePool;
 
     // For now => optimization needed
     struct BorrowAsset {
@@ -85,9 +83,7 @@ contract LendingPoolV2 is ReentrancyGuard {
         BORROW_RATE = _borrowRate;
     }
 
-    // Aggregator functionality
-    
-
+    // Aggregator functionality from chainlink
     function getLatestPrice(address _tokenAddress) public view returns (int) {
         AggregatorV3Interface priceFeed;
         priceFeed = AggregatorV3Interface(_tokenAddress);
@@ -123,66 +119,76 @@ contract LendingPoolV2 is ReentrancyGuard {
 
         uint lenderAssetLength = lenderAssets[lender].length;
         uint256 amount = _amount;
-        
-        /* ASK to Sasi => Did into borrow part
-            TODO :  If token exits => update the lenderAssets details 
-                    Else push the token values 
-        */
+       
         for (uint i = 0; i < lenderAssetLength; i++) {
             if(lenderAssets[lender][i].token == _token) {
-                amount += lenderAssets[lender][i].lentQty;
+                // amount += lenderAssets[lender][i].lentQty;
+                lenderAssets[lender][i].lentQty += _amount;
+
+            }else {
+                UserAsset memory userAsset = UserAsset({
+                    user: lender,
+                    token: _token,
+                    lentQty: _amount,
+                    borrowQty: 0,
+                    lentApy: INTEREST_RATE,
+                    borrowApy: 0,
+                    lendStartTimeStamp: block.timestamp,
+                    borrowStartTimeStamp:0
+                });
+                // add to lender asset list
+                lenderAssets[lender].push(userAsset);
             }
         }
-
-        UserAsset memory userAsset = UserAsset({
-            user: lender,
-            token: _token,
-            lentQty: amount,
-            borrowQty: 0,
-            lentApy: INTEREST_RATE,
-            borrowApy: 0,
-            lendStartTimeStamp: block.timestamp,
-            borrowStartTimeStamp:0
-        });
-
-        // add to lender asset list
-        lenderAssets[lender].push(userAsset);
+     
         // Add to Lending Pool a.k.a reserves
         // If using a struct, use a function getCurrentReserve() and add to the struct, that increases gas cost
         reserves[_token] += _amount;
-        // Add to reserve assets for enabling iteration
-        reserveAssets.push(_token);
+
+        if(!isTokenInReserve(_token)) {
+            // Add to reserve assets for enabling iteration
+            reserveAssets.push(_token);
+        }
+
+
+        // TODO : Insert new token into Assets => Add the token into Pool 
+        // config.addAssets();
 
         // Pushing reserves into ReservePool array => For now Testing 
-        address _ethAddress = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
-        address _daiAddress = 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB;
-        address _usdcAddress = 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db;
-
+        address ethAddress = config.getAssetByTokenSymbol("ETH").token;
+       
         // ETH
-        if(_token == _ethAddress) {
-            reservePool.push(ReservePool(_token , "ETH", amount, false, false, false));
-            // Updating Lender ETH balance => convert amount into USD
+        if(_token == ethAddress) {
+            // reservePool.push(ReservePool(_token , "ETH", amount, false, false, false));
             lenderETHLendQty[lender] += amount;
         }
 
         // DAI
-        if(_token == _daiAddress) {
-            reservePool.push(ReservePool(_token , "DAI", amount, true, false, false));
+        if(_token == daiAddress) {
+            // reservePool.push(ReservePool(_token , "DAI", amount, true, false, false));
         }
 
         // USDC
-        if(_token == _usdcAddress) {
-            reservePool.push(ReservePool(_token , "USDC", amount, true,  false, false));
+        if(_token == usdcAddress) {
+            // reservePool.push(ReservePool(_token , "USDC", amount, true,  false, false));
         }
 
     }
+
+    function isTokenInReserve(address _token) public view returns(bool) {
+        for(uint i=0; i<reserve.length; i++) {
+            if(reserve[i] == _token) {
+                return true;
+            }
+        }
+        return false;
+    } 
 
     function lendETH(uint amount) internal returns(bool) { 
         (bool success, ) = address(this).call{value : amount}("");
         require(success, "Deposit failed");
         return true;
     } 
-
 
     /* TODO : On 22 Feb call
         1. REQUIRE ETH in collateral
@@ -230,8 +236,10 @@ contract LendingPoolV2 is ReentrancyGuard {
         //    else push userAssets into borrowerAssets
         for (uint i=0 ; i < borrowerAssetsLength; i++) {
             if(borrowerAssets[borrower][i].token == _token) {
-                uint borrowerTotalAmount = borrowerAssets[borrower][i].borrowQty + _amount;
 
+                updateEarned(lender, _token); //100 + 0.00001 eth , 2 // TODO: implement 
+
+                uint borrowerTotalAmount = borrowerAssets[borrower][i].borrowQty + _amount;
                 borrowerAssets[borrower][i].borrowQty = borrowerTotalAmount;
                 borrowerAssets[borrower][i].borrowApy = BORROW_RATE;
                 borrowerAssets[borrower][i].borrowStartTimeStamp = block.timestamp;
@@ -337,7 +345,6 @@ contract LendingPoolV2 is ReentrancyGuard {
     function getLenderETHBalanceUSD(address _lender) public view returns(int256) {
         address token = config.getAssetByTokenSymbol("ETH").token;
         int256 tokenUSDBalance = int256(getLatestPrice(token)) * int256(lenderETHLendQty[_lender]);
-       
         return tokenUSDBalance;
     }
 
@@ -356,7 +363,7 @@ contract LendingPoolV2 is ReentrancyGuard {
         // check if the owner has reserve
         require(getLenderAssetBal(lender, _token) >= _amount,"Not enough balance to withdraw");
         // we update the earned rewwards before the lender can withdraw
-        //updateEarned(lender, _token); //100 + 0.00001 eth , 2 // TODO: implement 
+        updateEarned(lender, _token); //100 + 0.00001 eth , 2 // TODO: implement 
         // Reserve must have enough withdrawl qty 
         require (reserves[_token] >= _amount, "Not enough qty in reserve pool to withdraw");
         // Remove from reserve
@@ -373,7 +380,7 @@ contract LendingPoolV2 is ReentrancyGuard {
         }
 
         // Updating lenderETHLendQty
-        address ethAddress = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
+        address ethAddress = config.getAssetByTokenSymbol("ETH").token;
         if(_token == ethAddress) {
             lenderETHLendQty[lender] -= _amount;
         }
