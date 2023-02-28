@@ -310,6 +310,63 @@
 						"internalType": "address",
 						"name": "_token",
 						"type": "address"
+					}
+				],
+				"name": "isBorrowingEnable",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					}
+				],
+				"name": "isCollateralEnable",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					}
+				],
+				"name": "isTokenInAssets",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
 					},
 					{
 						"internalType": "enum LendingConfig.AssetStatus",
@@ -356,6 +413,14 @@
 		"remappings": []
 	},
 	"sources": {
+		"@openzeppelin/contracts/access/Ownable.sol": {
+			"keccak256": "0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://40fb1b5102468f783961d0af743f91b9980cf66b50d1d12009f6bb1869cea4d2",
+				"dweb:/ipfs/QmYqEbJML4jB1GHbzD4cUZDtJg5wVwNm3vDJq1GbyDus8y"
+			]
+		},
 		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
 			"keccak256": "0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b",
 			"license": "MIT",
@@ -364,12 +429,36 @@
 				"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr"
 			]
 		},
-		"Defi-project/V2_updated_27_02/LendingConfig.sol": {
-			"keccak256": "0x0fb8bef08afd23ce295595e2c2b0f7c150f9ae6a43f718e7758cc8bedd4c3d2e",
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4c527543589792efaa30ec3788687d0dd5d1937d3494afdc6248c9d0b9fcb03b",
-				"dweb:/ipfs/QmXNHH6sxDkvGpWjF6HfowDE4WVh7gPrNLATRrSz9dMR9i"
+				"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92",
+				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
+			]
+		},
+		"Defi-project/V2_updated_27_02/AddressStorage.sol": {
+			"keccak256": "0x783df60e0a4f648be41207514ae453d16b1d9ad03df08b06701aa4a3ac0edd4e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://91e557b9f23b7e3373253c9dc64b04a47c59b3dc92d41c3b5f6276bb872c2fd2",
+				"dweb:/ipfs/QmW6UjAooSGuZgP8eJyvxwJuW4DR4pLynuWbK7h1AmJMzR"
+			]
+		},
+		"Defi-project/V2_updated_27_02/LendingConfig.sol": {
+			"keccak256": "0x83bdd136fa0f0bbb527db5c8f1c30e22725d6f1b09b9fbc2f86958ed10d4e340",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://55a7ce314311f8e4e7b0fb12819b1e6b80fbb7f09dfa2fbd431bd5663012566e",
+				"dweb:/ipfs/QmWUsnkNc6z3H2FUFv2Mfdx5FJL13f4fUqFdDNcBdFWtRA"
+			]
+		},
+		"Defi-project/V2_updated_27_02/LendingPoolAddressProvider.sol": {
+			"keccak256": "0xee501ff0fed479f9aecf500a1a77696ec5d0d642d67c48296c3f55af3702e9ef",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c49ea0d169b9f0f8df4038f37a0e2804d54a56f30b28b23e08a2e8481e97d31c",
+				"dweb:/ipfs/QmavaaUwL3eLcbC5rjumL64qkB7CASY7tNQhJdJTuwHRiF"
 			]
 		}
 	},

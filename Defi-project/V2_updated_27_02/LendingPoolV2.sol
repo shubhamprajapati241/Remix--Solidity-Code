@@ -35,7 +35,7 @@ contract LendingPoolV2 is ReentrancyGuard {
     // asset token => reserve qty
     mapping (address => uint) public reserves;
     // For iteration - Do we need this?
-    address[] reverseAssets; 
+    address[] reserveAssets; 
     // mapping(address => UserAsset) lenderAssets;
     // mapping(address => mapping(address => uint)) lenderAssets;
     mapping(address => UserAsset[]) public lenderAssets;
@@ -120,7 +120,7 @@ contract LendingPoolV2 is ReentrancyGuard {
         return currentPrice;
     }
 
-    function getAmountInDollars(address _token, uint256 _amount) public view returns(uint) {
+    function getAmountInUSD(address _token, uint256 _amount) public view returns(uint) {
         uint totalAmountInDollars = uint(getLatestPrice(_token)) * _amount;
         return totalAmountInDollars;
     }
@@ -147,9 +147,9 @@ contract LendingPoolV2 is ReentrancyGuard {
     // }
 
     function isTokenInReserve(address _token) public view returns(bool) {
-        uint reservesAssetsLength = reverseAssets.length;
+        uint reservesAssetsLength = reserveAssets.length;
         for(uint i=0; i < reservesAssetsLength; i++) {
-            if(reverseAssets[i] == _token) {
+            if(reserveAssets[i] == _token) {
                 return true;
             }
         }
@@ -161,6 +161,9 @@ contract LendingPoolV2 is ReentrancyGuard {
 
     function lend(address _token, uint256 _amount) public payable {
         address lender = msg.sender;
+
+        // Borrowing disabled for the ETH right
+        bool _usageAsBorrowEnabled = (keccak256(abi.encodePacked(_token)) == keccak256(abi.encodePacked("ETH"))) ? false: true;
         bool _usageAsCollateralEnabled = (keccak256(abi.encodePacked(_token)) == keccak256(abi.encodePacked("ETH"))) ? true: false;
 
         string memory _symbol = addressToTokenMap.getAddress(_token);
@@ -168,7 +171,7 @@ contract LendingPoolV2 is ReentrancyGuard {
         if(!lendingConfig.isTokenInAssets(_token)) {
             lendingConfig.addAsset(
                 _token,
-                true,
+                _usageAsBorrowEnabled, 
                 _usageAsCollateralEnabled,
                 false, //_isfrozen
                 true, //_isActive
@@ -184,14 +187,14 @@ contract LendingPoolV2 is ReentrancyGuard {
          // transfer from the lender's wallet to DeFi app or SC 
         if(_token == ethAddress) {
             // Call for ETH : from lender's wallet to SC
-            (bool success, ) = payable(address(this)).call{value : _amount}("");
-            require(success, "Deposit failed");
+            // (bool success, ) = payable(address(this)).call{value : _amount}("");
+            // require(success, "Deposit failed");
 
             // * Borrow is against ETH Only => Balance of lentAssets is display only
             lenderETHBalance[lender] += _amount;
         }else {
             // transfer token from the lender's wallet to DeFi app or SC 
-            IERC20(_token).transferFrom(lender,address(this),_amount);
+            // IERC20(_token).transferFrom(lender,address(this),_amount);
         }
 
         // Add to lenders assets with amount - Add to userAssets struct
@@ -239,7 +242,7 @@ contract LendingPoolV2 is ReentrancyGuard {
         // If using a struct, use a function getCurrentReserve() and add to the struct, that increases gas cost
         reserves[_token] += _amount;
         // Add to reserve assets for enabling iteration
-        reverseAssets.push(_token);
+        reserveAssets.push(_token);
     }
 
     // Helper function - should actually be private but making it public for now to debug
@@ -268,16 +271,10 @@ contract LendingPoolV2 is ReentrancyGuard {
         uint256 totalBalance;
         uint lenderAssetLength = lenderAssets[_lender].length;
         for (uint i = 0; i < lenderAssetLength; i++) {
-            uint256 tokenUSDBalance = getAmountInDollars(lenderAssets[_lender][i].token, lenderAssets[_lender][i].lentQty);
+            uint256 tokenUSDBalance = getAmountInUSD(lenderAssets[_lender][i].token, lenderAssets[_lender][i].lentQty);
             totalBalance += tokenUSDBalance;
         }
         return totalBalance;
-    }
-
-    function getLenderETHBalanceForBorrowInUSD(address _lender) public view returns(uint256) {
-        address token = lendingConfig.getAssetByTokenSymbol("ETH").token;
-        uint256 tokenUSDBalance = getAmountInDollars(token, lenderETHBalance[_lender]);
-        return tokenUSDBalance;
     }
 
     function getLenderAssets(address _lender) public view returns (UserAsset[] memory) {
@@ -326,6 +323,94 @@ contract LendingPoolV2 is ReentrancyGuard {
     }
 
     /********************* BORROW FUNCTIONS ******************/
+
+    // Calculate the Assets to Borrow and return it
+    function getAssetsToBorrow(address _borrower) public view returns(BorrowAsset[] memory) {
+        /* TODO : 
+            1. Require ETH in collateral & Get user ETh balance in USD
+            2. Calculate 80% of ETH balance
+            3. Get total count of not collateral assets in the reserve
+            4. Get assets to borrow from reserve
+            5. Check reserve qty > borrow qty 
+            6. Return BorrowAssetsArray
+        */
+
+        //  1. Require ETH in collateral & Get ETH balance in USD
+        // uint ethBalance =  getLenderETHBalanceForBorrowInUSD(_borrower); // Short method
+        uint ethBalance = getUserTotalAmountAvailableForBorrowInUSD(_borrower); // long method
+        require(ethBalance > 0 , "First Deposit ETH as Collateral");
+
+        // 2. Calculate 80% of ETH balance
+        uint maxAmountToBorrowInUSD = (ethBalance * BORROW_THRESHOLD)/ 100; // Problem: Not getting the decimal value; 96 96.8
+        
+        // 3. Get total count of not collateral assets in the reserve
+        uint length = reserveAssets.length;
+        uint count = 0;
+        for(uint i = 0 ; i< length; i++) {
+            address token = reserveAssets[i];
+            if(lendingConfig.isCollateralEnable(token)) {
+                count = count + 1;
+            }
+        }
+
+        // 4. Getting assets to borrow from reserve
+        BorrowAsset[] memory borrowAsset = new BorrowAsset[](count);
+        for(uint i = 0; i < length; i++) {
+            address token = reserveAssets[i];
+            if(lendingConfig.isBorrowingEnable(token)) {
+                // Get Token total amount from reserve
+                uint reserveAmountInUSD = getAmountInUSD(token, reserves[token]);
+                //  4. Check reserve qty > borrow qty 
+                if(reserveAmountInUSD > maxAmountToBorrowInUSD) {
+                    // TODO : ASK SASI => make a conversion of _maxAmountToBorrowInUSD on that paricular Token Qty
+                    uint borrowQty = maxAmountToBorrowInUSD;
+                    borrowAsset[i] = BorrowAsset(token, borrowQty, 3);
+                }
+            }
+        }
+        return borrowAsset;
+    }
+
+    // SHORT METHOD
+    function getLenderETHBalanceForBorrowInUSD(address _lender) public view returns(uint256) {
+        address token = lendingConfig.getAssetByTokenSymbol("ETH").token;
+        uint256 tokenUSDBalance = getAmountInUSD(token, lenderETHBalance[_lender]);
+        return tokenUSDBalance;
+    }    
+
+    // LONG METHOD
+    function getUserTotalAmountAvailableForBorrowInUSD(address _user) public view returns(uint256) {
+        uint256 userTotalETHLendAmoutInUSD = 0;
+        uint256 userTotalBorrowAmountInUSD = 0;
+
+        // 1. Getting ETH address from lendingConfig
+        address ethAddress = lendingConfig.getAssetByTokenSymbol("ETH").token;
+        
+        uint totalLendETH = 0;
+        // 2. Total lendETH in lenderAssets
+        uint lenderAssetLength = lenderAssets[_user].length;
+        for(uint i =0; i < lenderAssetLength; i++) {
+            if(lenderAssets[_user][i].token == ethAddress) {
+                totalLendETH += lenderAssets[_user][i].lentQty;
+            }
+        }
+
+        // 3. Converting totalLendETH in USD
+        userTotalETHLendAmoutInUSD = getAmountInUSD(ethAddress, totalLendETH);
+        
+        // 4. Total borrowassets in borrowerAssets
+        uint borrowerAssetsLength = borrowerAssets[_user].length;
+        for(uint i =0; i < borrowerAssetsLength; i++) {
+            address borrowTokenAddress = borrowerAssets[_user][i].token;
+            uint borrowAmount = borrowerAssets[_user][i].borrowQty;
+            uint borrowAmountInUSD = getAmountInUSD(borrowTokenAddress, borrowAmount);
+            userTotalBorrowAmountInUSD += borrowAmountInUSD;
+        }
+        // 5. Returns available amount for borrow in USD
+        return userTotalETHLendAmoutInUSD - userTotalBorrowAmountInUSD;
+    }
+
+
      function Borrow(address _token, uint _amount, uint borrowDuration) public nonReentrant onlyAmountGreaterThanZero(_amount) returns(bool) {
         /* TODO 
             1. Checking lenderETHAssets >= _amount 
@@ -340,7 +425,7 @@ contract LendingPoolV2 is ReentrancyGuard {
 
         // 1. Checking lenderETHAssets >= _amount 
         uint256 lenderETHAmount = getLenderETHBalanceForBorrowInUSD(borrower);
-        uint256 amountInDoller = getAmountInDollars(_token, _amount);
+        uint256 amountInDoller = getAmountInUSD(_token, _amount);
 
         // TODO : chekcing 80% lendAmount here
         require(lenderETHAmount >= amountInDoller, "Not enough balance to borrow");
@@ -409,41 +494,6 @@ contract LendingPoolV2 is ReentrancyGuard {
         // require(success, "Tranfer to user's wallet not successful");
         return true;
     } 
-
-    // Calculate the Assets to Borrow and return it
-    function getAssetsToBorrow(address _borrower) public view returns(BorrowAsset[] memory) {
-        
-        /* TODO : 
-            1. REQUIRE ETH in collateral & Get ETh balance in USD
-            2. Calculate 80% of ETH balance
-            3. Get stable assets from reserve => USDC, DAI, 
-            4. Create BorrowAssetsArray and return it
-        */
-
-        //  1. REQUIRE ETH in collateral & Get ETh balance in USD
-        uint ethBalance =  getLenderETHBalanceForBorrowInUSD(_borrower);
-        require(ethBalance > 0 , "First Deposit ETH as Collateral");
-
-        // 2. Calculate 80% of ETH balance
-        uint maxBorrowAmount = (ethBalance * BORROW_THRESHOLD)/ 100; // Problem: Not getting the decimal value; 96 96.8
-        
-        // 3. Get stable assets from reserve
-        BorrowAsset[] memory borrowAsset = new BorrowAsset[](reservePool.length);
-
-        for(uint i = 0; i < reservePool.length ; i++) {
-            // Remove the ETH Address by isBorrow from Reserve Struct
-            if(reservePool[i].isBorrow) {
-                uint reserveTokenQty = reservePool[i].amount;
-                address token = reservePool[i].token;
-
-                // ReserveTokenQty should more than borrow
-                if(reserveTokenQty >= maxBorrowAmount) {
-                    borrowAsset[i] = BorrowAsset(token, maxBorrowAmount, 3);
-                }
-            }
-        }
-        return borrowAsset;
-    }
 
 
 

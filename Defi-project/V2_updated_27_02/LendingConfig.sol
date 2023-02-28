@@ -148,6 +148,26 @@ contract LendingConfig {
         }
         revert("Asset not found");
     }
+
+    function isCollateralEnable(address _token) public view returns(bool) {
+        uint256 assetsLen = assets.length;
+        for(uint i=0; i < assetsLen; i++) {
+            if(assets[i].token == _token && assets[i].usageAsCollateralEnabled) {
+                return true;
+            }
+        }
+        return false;
+    } 
+
+    function isBorrowingEnable(address _token) public view returns(bool) {
+        uint256 assetsLen = assets.length;
+        for(uint i=0; i < assetsLen; i++) {
+            if(assets[i].token == _token && assets[i].borrowingEnabled) {
+                return true;
+            }
+        }
+        return false;
+    } 
 }
 
 
