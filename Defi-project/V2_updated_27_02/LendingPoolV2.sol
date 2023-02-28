@@ -11,6 +11,8 @@ import "./LendingConfig.sol";
 import "./AggregatorV3Interface.sol";
 import "./AddressToTokenMap.sol";
 
+import "./AddressToTokenMap.sol";
+
 contract LendingPoolV2 is ReentrancyGuard {
     using SafeMath for uint;
 
@@ -21,7 +23,10 @@ contract LendingPoolV2 is ReentrancyGuard {
      uint256 public constant DECIMALS = 18;
     uint256 public constant BORROW_THRESHOLD = 80;
     uint256 public constant LIQUIDATION_THRESHOLD = 10;
-    uint32 public constant MIN_BORROW_DURATION = 30 days;
+    
+    uint32 public constant BORROW_DURATION_30 = 30 days;
+    uint32 public constant BORROW_DURATION_60 = 60 days;
+    uint32 public constant BORROW_DURATION_90 = 90 days;
 
     LendingConfig lendingConfig;
     AddressToTokenMap addressToTokenMap;
@@ -37,7 +42,7 @@ contract LendingPoolV2 is ReentrancyGuard {
     mapping(address => UserAsset[]) public borrowerAssets;
 
     // lenderAddress => ethqty : For ETH Lend - Borrow manage
-    mapping(address => uint) public lenderETHLendQty;
+    mapping(address => uint) public lenderETHBalance;
     
     //* 3. Declaring the structs
     struct UserAsset {
@@ -50,21 +55,22 @@ contract LendingPoolV2 is ReentrancyGuard {
         uint256 lendStartTimeStamp;
         uint256 borrowStartTimeStamp;
         uint256 borrowEndTimeStamp; // borrow maturity period
+        uint256 maturityPeriod; 
     }
 
     UserAsset[] public userAssets;
 
-    struct ReservePool {
-        address token;
-        string symbol;
-        uint amount;
-        bool isBorrow;
-        bool isfrozen;
-        bool isActive;
-    }
+    // struct ReservePool {
+    //     address token;
+    //     string symbol;
+    //     uint amount;
+    //     bool isBorrow;
+    //     bool isfrozen;
+    //     bool isActive;
+    // }
 
     // mapping(address => ReservePool[]) reservePools;
-    ReservePool[] reservePool;
+    // ReservePool[] reservePool;
 
     struct BorrowAsset {
         address asset;
@@ -88,7 +94,7 @@ contract LendingPoolV2 is ReentrancyGuard {
 
     modifier onlyAmountGreaterThanZero(uint256 amount) {
         require(amount > 0, "Amount must be greater than zero");
-        _;
+        _; 
     }
 
     modifier onlyTokenInReserve(address _token) {
@@ -96,22 +102,23 @@ contract LendingPoolV2 is ReentrancyGuard {
         _;
     }
 
-    function getLatestPrice(address _tokenAddress) public view returns (int) {
-        AggregatorV3Interface priceFeed;
-        priceFeed = AggregatorV3Interface(_tokenAddress);
-        (,int price,,,) = priceFeed.latestRoundData();
-        return price / 1e8; //1e8 as per 8 decimals in chainlink doc 
-    }
-
-    //  Code referece - https://github.dev/Parasgr7/Defi-Lending-Borrowing => oneTokenEqualsHowManyDollars()
-    // function getLatestPrice(address _token) public view returns(uint)  {
+    // Sasi GetLatestPrice code
+    // function getLatestPrice(address _tokenAddress) public view returns (int) {
     //     AggregatorV3Interface priceFeed;
-    //     priceFeed = AggregatorV3Interface(_token);
+    //     priceFeed = AggregatorV3Interface(_tokenAddress);
     //     (,int price,,,) = priceFeed.latestRoundData();
-    //     uint256 decimal = priceFeed.decimals();
-    //     uint currentPrice = uint(price) / (10** decimal);
-    //     return currentPrice;
+    //     return price / 1e8; //1e8 as per 8 decimals in chainlink doc 
     // }
+
+    function getLatestPrice(address _tokenAddress) public view returns(uint)  {
+        AggregatorV3Interface priceFeed;
+        address tokenToUSDAddress = addressToTokenMap.getPriceFeedMap(_tokenAddress);
+        priceFeed = AggregatorV3Interface(tokenToUSDAddress);
+        (,int price,,,) = priceFeed.latestRoundData();
+        uint256 decimal = priceFeed.decimals();
+        uint currentPrice = uint(price) / (10** decimal);
+        return currentPrice;
+    }
 
     function getAmountInDollars(address _token, uint256 _amount) public view returns(uint) {
         uint totalAmountInDollars = uint(getLatestPrice(_token)) * _amount;
@@ -158,7 +165,7 @@ contract LendingPoolV2 is ReentrancyGuard {
 
         string memory _symbol = addressToTokenMap.getAddress(_token);
         
-        // if(!lendingConfig.isTokenInAssets(_token)) {
+        if(!lendingConfig.isTokenInAssets(_token)) {
             lendingConfig.addAsset(
                 _token,
                 true,
@@ -170,7 +177,7 @@ contract LendingPoolV2 is ReentrancyGuard {
                 BORROW_THRESHOLD,
                 LIQUIDATION_THRESHOLD 
             );
-        // }
+        }
 
         address ethAddress = lendingConfig.getAssetByTokenSymbol("ETH").token;
 
@@ -181,7 +188,7 @@ contract LendingPoolV2 is ReentrancyGuard {
             require(success, "Deposit failed");
 
             // * Borrow is against ETH Only => Balance of lentAssets is display only
-            lenderETHLendQty[lender] += _amount;
+            lenderETHBalance[lender] += _amount;
         }else {
             // transfer token from the lender's wallet to DeFi app or SC 
             IERC20(_token).transferFrom(lender,address(this),_amount);
@@ -204,7 +211,8 @@ contract LendingPoolV2 is ReentrancyGuard {
                     borrowApy: 0,
                     lendStartTimeStamp: block.timestamp,
                     borrowStartTimeStamp:0,
-                    borrowEndTimeStamp : 0
+                    borrowEndTimeStamp : 0,
+                    maturityPeriod : 0
                 });
                 // add to lender asset list
                 lenderAssets[lender].push(userAsset);
@@ -266,9 +274,9 @@ contract LendingPoolV2 is ReentrancyGuard {
         return totalBalance;
     }
 
-    function getLenderETHBalanceUSD(address _lender) public view returns(uint256) {
+    function getLenderETHBalanceForBorrowInUSD(address _lender) public view returns(uint256) {
         address token = lendingConfig.getAssetByTokenSymbol("ETH").token;
-        uint256 tokenUSDBalance = getAmountInDollars(token, lenderETHLendQty[_lender]);
+        uint256 tokenUSDBalance = getAmountInDollars(token, lenderETHBalance[_lender]);
         return tokenUSDBalance;
     }
 
@@ -303,10 +311,10 @@ contract LendingPoolV2 is ReentrancyGuard {
             }
         }
 
-        // Updating lenderETHLendQty
+        // Updating lenderETHBalance
         address ethAddress = lendingConfig.getAssetByTokenSymbol("ETH").token;
         if(_token == ethAddress) {
-            lenderETHLendQty[lender] -= _amount;
+            lenderETHBalance[lender] -= _amount;
         }
 
         // transfer from contract to lender's wallet - apprval not necessary
@@ -318,7 +326,7 @@ contract LendingPoolV2 is ReentrancyGuard {
     }
 
     /********************* BORROW FUNCTIONS ******************/
-     function Borrow(address _token, uint _amount) public nonReentrant onlyAmountGreaterThanZero(_amount) onlyTokenInReserve(_token) returns(bool) {
+     function Borrow(address _token, uint _amount, uint borrowDuration) public nonReentrant onlyAmountGreaterThanZero(_amount) returns(bool) {
         /* TODO 
             1. Checking lenderETHAssets >= _amount 
             2. Checking reserve[_token] >= _amount & Updating Reserves
@@ -331,23 +339,34 @@ contract LendingPoolV2 is ReentrancyGuard {
         address borrower = msg.sender;
 
         // 1. Checking lenderETHAssets >= _amount 
-        uint256 lenderETHAmount = getLenderETHBalanceUSD(borrower);
+        uint256 lenderETHAmount = getLenderETHBalanceForBorrowInUSD(borrower);
         uint256 amountInDoller = getAmountInDollars(_token, _amount);
 
+        // TODO : chekcing 80% lendAmount here
         require(lenderETHAmount >= amountInDoller, "Not enough balance to borrow");
 
         // 2. Checking reserve[_token] >= _amount
         require(reserves[_token] >= _amount, "Not enough qty in the reserve pool to borrow");
 
-        // Updating reserves
-        reserves[_token] -= _amount;
-        // TODO updating reservepool
 
         // 3. Get Previous borrowerAssetsLength
         uint borrowerAssetsLength =  borrowerAssets[borrower].length;
 
         // 4. If token exits => update borrowerAssets 
         //    else push userAssets into borrowerAssets
+
+        uint maturityDuration;
+        if(borrowDuration == 30) {
+            maturityDuration = block.timestamp + BORROW_DURATION_30;
+        }
+
+        if(borrowDuration == 60) {
+            maturityDuration = block.timestamp + BORROW_DURATION_60;
+        }
+        if(borrowDuration == 90) {
+            maturityDuration = block.timestamp + BORROW_DURATION_90;
+        }
+
         for (uint i=0 ; i < borrowerAssetsLength; i++) {
             if(borrowerAssets[borrower][i].token == _token) {
 
@@ -358,7 +377,9 @@ contract LendingPoolV2 is ReentrancyGuard {
                 borrowerAssets[borrower][i].borrowQty = borrowerTotalAmount;
                 borrowerAssets[borrower][i].borrowApy = BORROW_RATE;
                 borrowerAssets[borrower][i].borrowStartTimeStamp = block.timestamp;
-                borrowerAssets[borrower][i].borrowEndTimeStamp = block.timestamp + MIN_BORROW_DURATION;
+                borrowerAssets[borrower][i].borrowEndTimeStamp = maturityDuration;
+                borrowerAssets[borrower][i].maturityPeriod = borrowDuration;
+
             }else {
                 UserAsset memory userAsset = UserAsset({
                     user: borrower,
@@ -369,14 +390,19 @@ contract LendingPoolV2 is ReentrancyGuard {
                     borrowApy: BORROW_RATE,
                     lendStartTimeStamp: 0,
                     borrowStartTimeStamp: block.timestamp,
-                    borrowEndTimeStamp : block.timestamp + MIN_BORROW_DURATION
+                    borrowEndTimeStamp : maturityDuration,
+                    maturityPeriod : borrowDuration
                 });
                 borrowerAssets[borrower].push(userAsset);
             }
         }
 
         // 5. Updating lender ETH balance for Next Borrow
-        lenderETHLendQty[borrower] -= _amount; 
+        lenderETHBalance[borrower] -= _amount;  // lendingLedger => lenderETHBalance
+
+         // Updating reserves
+        reserves[_token] -= _amount;
+        // TODO updating reservepool
 
         // 7. Token Transfer from SC to User
         // bool success = IERC20(_token).transferFrom(address(this), borrower, _amount);
@@ -395,16 +421,13 @@ contract LendingPoolV2 is ReentrancyGuard {
         */
 
         //  1. REQUIRE ETH in collateral & Get ETh balance in USD
-
-        // 2 Eth => 3200 => 2600
-        uint ethBalance =  uint256(getLenderETHBalanceUSD(_borrower));
+        uint ethBalance =  getLenderETHBalanceForBorrowInUSD(_borrower);
         require(ethBalance > 0 , "First Deposit ETH as Collateral");
 
         // 2. Calculate 80% of ETH balance
         uint maxBorrowAmount = (ethBalance * BORROW_THRESHOLD)/ 100; // Problem: Not getting the decimal value; 96 96.8
         
         // 3. Get stable assets from reserve
-
         BorrowAsset[] memory borrowAsset = new BorrowAsset[](reservePool.length);
 
         for(uint i = 0; i < reservePool.length ; i++) {
