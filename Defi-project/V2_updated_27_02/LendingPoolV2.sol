@@ -382,14 +382,14 @@ contract LendingPoolV2 is ReentrancyGuard {
     function getUserTotalAmountAvailableForBorrowInUSD(address _user) public view returns(uint256) {
         uint256 userTotalETHLendAmoutInUSD = 0;
         uint256 userTotalBorrowAmountInUSD = 0;
+        uint256 totalLendETH = 0;
 
         // 1. Getting ETH address from lendingConfig
         address ethAddress = lendingConfig.getAssetByTokenSymbol("ETH").token;
         
-        uint totalLendETH = 0;
         // 2. Total lendETH in lenderAssets
-        uint lenderAssetLength = lenderAssets[_user].length;
-        for(uint i =0; i < lenderAssetLength; i++) {
+        uint256 lenderAssetLength = lenderAssets[_user].length;
+        for(uint256 i =0; i < lenderAssetLength; i++) {
             if(lenderAssets[_user][i].token == ethAddress) {
                 totalLendETH += lenderAssets[_user][i].lentQty;
             }
@@ -399,11 +399,11 @@ contract LendingPoolV2 is ReentrancyGuard {
         userTotalETHLendAmoutInUSD = getAmountInUSD(ethAddress, totalLendETH);
         
         // 4. Total borrowassets in borrowerAssets
-        uint borrowerAssetsLength = borrowerAssets[_user].length;
-        for(uint i =0; i < borrowerAssetsLength; i++) {
+        uint256 borrowerAssetsLength = borrowerAssets[_user].length;
+        for(uint256 i =0; i < borrowerAssetsLength; i++) {
             address borrowTokenAddress = borrowerAssets[_user][i].token;
-            uint borrowAmount = borrowerAssets[_user][i].borrowQty;
-            uint borrowAmountInUSD = getAmountInUSD(borrowTokenAddress, borrowAmount);
+            uint256 borrowAmount = borrowerAssets[_user][i].borrowQty;
+            uint256 borrowAmountInUSD = getAmountInUSD(borrowTokenAddress, borrowAmount);
             userTotalBorrowAmountInUSD += borrowAmountInUSD;
         }
         // 5. Returns available amount for borrow in USD
