@@ -1,0 +1,65 @@
+{
+	"compiler": {
+		"version": "0.8.6+commit.11564f7e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "enum TEST.AssetStatus",
+						"name": "_option",
+						"type": "uint8"
+					}
+				],
+				"name": "isAciveOption",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"praticals/enum_active.sol": "TEST"
+		},
+		"evmVersion": "berlin",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"praticals/enum_active.sol": {
+			"keccak256": "0xc646651f8c738b796bde479221eaeaabc8fd16920edd0bc29ace76577e241a34",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://1854c7907740e00a259bfd5d1c728debeade02fbd1a136e73f8d3bd712c8b796",
+				"dweb:/ipfs/QmeHMWepqZ9AiuRCZkUqhCyPNN7bC5NbTsVW9zHmWY7qSX"
+			]
+		}
+	},
+	"version": 1
+}

@@ -5,6 +5,9 @@ contract Transfer {
 
     address payable public owner;
 
+    mapping(address => uint) public lenderBalance;
+
+
     constructor()  payable {
         owner = payable(msg.sender);
     }
@@ -13,8 +16,12 @@ contract Transfer {
     // }
 
     function depositEth() public payable {
+
+        address lender = msg.sender;
         (bool success, ) = address(this).call{value : msg.value}("");
         require(success, "Deposit failed");
+
+        lenderBalance[lender] += msg.value;
     }
 
     receive() external payable {}

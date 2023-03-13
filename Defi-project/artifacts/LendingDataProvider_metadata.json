@@ -1,0 +1,73 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_tokenAddress",
+						"type": "address"
+					}
+				],
+				"name": "getLatestPrice",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Defi-project/LendingDataProvider.sol": "LendingDataProvider"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Defi-project/AggregatorV3Interface.sol": {
+			"keccak256": "0xb0cc20d565e09b5bc3c13788fc7ab16ee06a2f054828dfb76805e2f05c2889c7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://439f11f064a7a0e376a5fae2d9e74544bb12f7aa6ba739190785ef49421f6127",
+				"dweb:/ipfs/QmQ1kJzLyF3twu6uoL8BW24qcAhn7kDEeZ3Z3qgN5oTpef"
+			]
+		},
+		"Defi-project/LendingDataProvider.sol": {
+			"keccak256": "0x79827b8f920859d569ca5eeb1ceba49c07a52228febf9b2fcfffa77b8536142c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8daf48bd5f292501cdb7c03b7915c48b081069b9b2477c49806d1d082e4cfdfb",
+				"dweb:/ipfs/Qmabsq8NFJMGQH4VpvHKJGsyVWE2mX7zruwd59a7FRvBxE"
+			]
+		}
+	},
+	"version": 1
+}
