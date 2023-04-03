@@ -19,7 +19,7 @@ contract PayableDemo {
     // this function can withdraw the ether
     function withdraw() public payable {
         uint amount = address(this).balance; // here (this) points to the current smart contract
-        (bool success,) = owner.call{value : amount}("amount withdraw from smart contract");
+        (bool success,) = owner.call{value : msg.value}("amount withdraw from smart contract");
         require(success, "Failed to receive ehter");
     }
 

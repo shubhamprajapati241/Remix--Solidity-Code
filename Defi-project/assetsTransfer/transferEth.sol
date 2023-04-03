@@ -26,7 +26,7 @@ contract Transfer {
 
     receive() external payable {}
 
-    function transferEth(address payable addr) public payable{ 
+    function transferEth(address payable addr) public payable { 
         addr.transfer(msg.value);
     }
 

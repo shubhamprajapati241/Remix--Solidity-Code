@@ -373,7 +373,7 @@ contract LendingPool is ReentrancyGuard {
         return borrowQty;
     }
 
-    function borrow(address _token, uint256 _amount, uint256 _borrowDuration) public nonReentrant onlyAmountGreaterThanZero(_amount) returns(bool) {
+    function borrow(address _token, uint256 _amount, uint256 _borrowDuration) public nonReentrant onlyAmountGreaterThanZero(_amount)  returns(bool) {
         /* TODO 
             1. Checking lenderETHAssets >= _amount 
             2. Checking reserve[_token] >= _amount & Updating Reserves
@@ -387,13 +387,14 @@ contract LendingPool is ReentrancyGuard {
 
         // 1. Checking lenderETHAssets >= _amount 
         uint256 lendETHAmount = getUserTotalAmountAvailableForBorrowInUSD(borrower);
-        uint256 amountInDoller = getAmountInUSD(_token, _amount);
+        uint256 borrowAmountInUSD = getAmountInUSD(_token, _amount);
 
+        
         // 2. Calculate 80% of ETH balance
         uint256 maxAmountToBorrowInUSD = (lendETHAmount * BORROW_THRESHOLD)/ 100; // Problem: Not getting the decimal value; 96 96.8
 
         // 3. check amount must be less than 80% of collateral
-        require(amountInDoller <= maxAmountToBorrowInUSD, "Not enough balance to borrow");
+        require(borrowAmountInUSD <= maxAmountToBorrowInUSD, "Not enough balance to borrow");
 
         // 4. Checking reserve[_token] >= _amount
         require(_amount <= reserves[_token], "Not enough qty in the reserve pool to borrow");
@@ -407,7 +408,6 @@ contract LendingPool is ReentrancyGuard {
         if(_borrowDuration == 30) {
             _borrowEndTimeStamp = block.timestamp + BORROW_DURATION_30;
             _maturityDuration = BORROW_DURATION_30;
-
         }
         if(_borrowDuration == 60) {
             _borrowEndTimeStamp = block.timestamp + BORROW_DURATION_60;
@@ -417,9 +417,6 @@ contract LendingPool is ReentrancyGuard {
             _borrowEndTimeStamp = block.timestamp + BORROW_DURATION_90;
             _maturityDuration = BORROW_DURATION_90;
         }
-
-        // 5. If token exits => update borrowerAssets 
-        //    else push userAssets into borrowerAssets
 
         if(borrowerAssetsLength == 0) {
              UserAsset memory userAsset = UserAsset({
@@ -475,7 +472,7 @@ contract LendingPool is ReentrancyGuard {
 
         emit Withdraw(borrower, _amount, reserves[_token], lenderETHBalance[borrower]);
 
-        // 7. Token Transfer from SC to User
+        // // 7. Token Transfer from SC to User
         bool success = IERC20(_token).transfer(borrower, _amount);
         require(success, "Tranfer to user's wallet not successful");
         return true;
@@ -556,15 +553,15 @@ contract LendingPool is ReentrancyGuard {
     // Helper function - should actually be private but making it public for now to debug
 
     // TODO : uncomment
-    function getBorrowerAssetTotalBal(address _borrower, address _token) public view returns(uint256){
-        uint borrowerAssetLength = borrowerAssets[_borrower].length;
-        for (uint i = 0; i < borrowerAssetLength; i++) {
-            if(borrowerAssets[_borrower][i].token == _token) {
-                return lenderAssets[_borrower][i].borrowQty;
-            }
-        }
-        return 0;
-    }
+    // function getBorrowerAssetBal(address _borrower, address _token) public view returns(uint256){
+    //     uint borrowerAssetLength = borrowerAssets[_borrower].length;
+    //     for (uint i = 0; i < borrowerAssetLength; i++) {
+    //         if(borrowerAssets[_borrower][i].token == _token) {
+    //             return lenderAssets[_borrower][i].borrowQty;
+    //         }
+    //     }
+    //     return 0;
+    // }
 
     // function getLenderBalanceUSD(address _lender) external view returns(uint256){
     //     uint256 totalBalance;
@@ -581,9 +578,9 @@ contract LendingPool is ReentrancyGuard {
     }
 
     // TODO : To uncomment
-    // function getBorrowerAssets(address _borrower) public view returns (UserAsset[] memory) {
-    //     return borrowerAssets[_borrower];
-    // }
+    function getBorrowerAssets(address _borrower) public view returns (UserAsset[] memory) {
+        return borrowerAssets[_borrower];
+    }
 
     function oneTokenEqualToHowManyUSD(address _tokenAddress) public view returns(uint)  {
 
@@ -621,15 +618,6 @@ contract LendingPool is ReentrancyGuard {
         uint totalAmountInDollars = uint(oneTokenEqualToHowManyUSD(_token)) * (_amount / 1e18 );
         return totalAmountInDollars;
     }
-
-    // Calculate the Assets to Borrow and return it
-
-    // SHORT METHOD => not need this 
-    // function getLenderETHBalanceForBorrowInUSD(address _lender) public view returns(uint256) {
-    //     address token = getAssetByTokenSymbol("ETH").token;
-    //     uint256 tokenUSDBalance = getAmountInUSD(token, lenderETHBalance[_lender]);
-    //     return tokenUSDBalance;
-    // }  
 
     // LONG METHOD
     function getUserTotalAmountAvailableForBorrowInUSD(address _user) public view returns(uint256) {
@@ -772,15 +760,15 @@ contract LendingPool is ReentrancyGuard {
         revert("Asset not found");
     }
 
-     function isCollateralEnable(address _token) public view returns(bool) {
-        uint256 assetsLen = assets.length;
-        for(uint i=0; i < assetsLen; i++) {
-            if(assets[i].token == _token && assets[i].usageAsCollateralEnabled) {
-                return true;
-            }
-        }
-        return false;
-    } 
+    //  function isCollateralEnable(address _token) public view returns(bool) {
+    //     uint256 assetsLen = assets.length;
+    //     for(uint i=0; i < assetsLen; i++) {
+    //         if(assets[i].token == _token && assets[i].usageAsCollateralEnabled) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // } 
 
     function isBorrowingEnable(address _token) public view returns(bool) {
         uint256 assetsLen = assets.length;
