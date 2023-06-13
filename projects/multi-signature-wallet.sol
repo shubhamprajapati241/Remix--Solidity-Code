@@ -1,8 +1,16 @@
 // SPDX-License-Identifier:MIT
-pragma solidity ^0.8.6;
+pragma solidity ^0.8.8;
 
 // A MultiSig wallet is a digital wallet that operates with multisignature addresses. 
 //  multiple senders -> single receiver
+
+// ? Functions flow
+// * 1. submitTransaction >>> first owner submit the transaction => get the transaction id in 0 , 1
+//* 2. confirmTransaction >>> rest owners will confirm the transaction with that particular transaction id
+//* 3. executeTransaction >>> After confirmation : execute the transaction will happen 
+//* 4. revokeConfirmation >>> with owners want to remove their confirmation
+
+
 contract MultiSignWallet {
 
     // creating the events
@@ -36,7 +44,7 @@ contract MultiSignWallet {
     mapping(uint=> mapping(address=>bool)) public isConfirmed; // for checking the status of a particular transactions
     // herer uint = transactions_id, address = owner, bool = approve or not approve 
 
-    Transaction[] public transactions;  // creating array of struct
+    Transaction[] transactions;  // creating array of struct
 
     // Declaring the modifiers : Modifier work as the validation
     // 1. for checking owners or only the owner can call
@@ -145,7 +153,12 @@ contract MultiSignWallet {
         return(transaction.to, transaction.value, transaction.data, transaction.executed, transaction.numConfirmations);
     }
 
+    function getContractBalance() public view returns(uint) {
+       return address(this).balance;
+    }
+
 }
 
 
-// ["0x5B38Da6a701c568545dCfcB03FcB875f56beddC4","0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2"]
+// ["0x5B38Da6a701c568545dCfcB03FcB875f56beddC4","0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db"]
+// 2 - confirmations means 2 / 3

@@ -24,13 +24,11 @@ contract staking is ReentrancyGuard{
     uint256 public rewardPerTokenStored;
     uint256 private totalSupply; // totalsupply of the token
 
-
     //* 2. Creating mappings
     // How much reward to be paid tu user for that userRewardPerTokenPaid
     mapping(address=>uint256) public userRewardPerTokenPaid;
     mapping(address=>uint256) public rewards; // staking rewards
     mapping(address=>uint256) public balances; // for user balance
-
 
     //* 3. Creating events
     event Staked(address indexed user,uint256 indexed amount); // emitted on staking functionlity 

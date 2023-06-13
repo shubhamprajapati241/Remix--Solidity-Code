@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.8;
+pragma solidity ^0.8.6;
 
 interface ERC20Interface {
     function totalSupply() external view returns (uint); 
