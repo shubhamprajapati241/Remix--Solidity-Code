@@ -24,7 +24,7 @@ contract ERC20 is IERC20 {
         return true;
     }
 
-    function transferFrom(
+    function transferFrom(   
         address sender,
         address recipient,
         uint amount

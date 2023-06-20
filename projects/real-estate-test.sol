@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+
+// Real estate
+// 1. seller -> list properties
+// 2. Admin approve -> 
+// to get only apporve properties
+
 contract RealEstate {
 
     struct Property {
@@ -46,8 +52,3 @@ contract RealEstate {
 }
 
 
-
-// Real estate
-// 1. seller -> list properties
-// 2. Admin approve -> 
-// to get only apporve properties
